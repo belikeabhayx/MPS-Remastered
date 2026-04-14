@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "shop": "Tienda",
+    "blog": "Blog",
+    "cart": "Carrito",
+    "checkout": "Pagar"
+  },
+  "product": {
+    "addToCart": "Añadir al carrito",
+    "outOfStock": "Agotado",
+    "related": "Productos relacionados",
+    "price": "Precio",
+    "description": "Descripción"
+  },
+  "cart": {
+    "title": "Tu carrito",
+    "empty": "Tu carrito está vacío",
+    "total": "Total",
+    "remove": "Eliminar",
+    "proceedToCheckout": "Proceder al pago"
+  },
+  "checkout": {
+    "title": "Pagar",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "placeOrder": "Realizar pedido",
+    "success": "¡Pedido realizado con éxito!"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Leer más"
+  }
+}
