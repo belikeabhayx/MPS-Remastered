@@ -1,0 +1,92 @@
+{
+    "home": {
+        "hero": {
+            "tagline": "Marine Part System",
+            "title": "Gebouwd om u draaiende te houden!",
+            "engineParts": "Motor Onderdelen",
+            "enginePartsDesc": "Alle kerncomponenten rond uw scheepsmotor: koeling, uitlaat, brandstof, pakkingen en meer.",
+            "enginePartsLink": "/nl/product-categorie/engine-parts",
+            "serviceParts": "Service Onderdelen",
+            "servicePartsDesc": "Alle kerncomponenten rond uw scheepsmotor: koeling, uitlaat, brandstof, pakkingen en meer.",
+            "servicePartsLink": "/nl/product-categorie/engine-service-parts",
+            "engineCooling": "Koeling",
+            "engineCoolingDesc": "Waterpompen, thermostaten en complete koelsysteemoplossingen voor uw vaartuig.",
+            "engineCoolingLink": "/nl/product-categorie/engine-parts/cooling-systems",
+            "electrical": "Elektrisch",
+            "electricalDesc": "Marine batterijen, bedrading, startmotoren, dynamo's en andere elektrische onderdelen.",
+            "electricalLink": "/nl/product-categorie/engine-parts/electrical-systems",
+            "pumps": "Pompen",
+            "pumpsDesc": "Bilgepompen, drinkwaterpompen en complete pompoplossingen voor uw vaartuig.",
+            "pumpsLink": "/nl/product-categorie/engine-parts/cooling-systems/water-pumps",
+            "engine": "Motoren"
+        },
+        "browse": {
+            "tagline": "Categorie Overzicht",
+            "title": "Bekijk alle categorieën",
+            "desc": "Van complete motoren tot de kleinste pakking — verken elke categorie in onze webshop.",
+            "button": "Bekijk alles"
+        },
+        "featured": "Uitgelichte Producten",
+        "featuredDesc": "Een overzicht van wat dagelijks vanuit ons magazijn wordt verzonden.",
+        "popular": "Populaire Categorieën",
+        "popularDesc": "Snelle toegang tot de merken en systemen waarmee u het meest werkt.",
+        "latestNews": "Laatste Nieuws",
+        "viewAll": "Bekijk alles",
+        "trust": "Vertrouwd door professionals wereldwijd",
+        "testimonials": {
+            "title": "Onze klanten",
+            "subtitle": "zijn tevreden",
+            "rateUs": "Klanten beoordelen ons met",
+            "basedOn": "gebaseerd op",
+            "reviews": "beoordelingen",
+            "excellent": "Uitstekend",
+            "veryGood": "Zeer goed",
+            "good": "Goed",
+            "verifiedBuyer": "Geverifieerde koper",
+            "fallbackReviews": [
+                {
+                    "id": 1,
+                    "rating": 5,
+                    "content": "Snelste levering die ik ooit heb meegemaakt! Bestelde mijn motorsteunen op donderdagmiddag en had ze om 10:15 in huis. Zeer snelle levering en duidelijke communicatie.",
+                    "author": "Patrick",
+                    "date": "1 jan. 2025"
+                },
+                {
+                    "id": 2,
+                    "rating": 5,
+                    "content": "Grote selectie producten en uitstekende klantenservice. De onderdelen kwamen snel aan en waren precies zoals beschreven.",
+                    "author": "Sarah",
+                    "date": "15 dec. 2024"
+                },
+                {
+                    "id": 3,
+                    "rating": 4,
+                    "content": "Echt onder de indruk van de kwaliteit en de snelle verzending. Zal zeker weer bestellen voor mijn boot.",
+                    "author": "James",
+                    "date": "20 nov. 2024"
+                }
+            ]
+        },
+        "inventory": {
+            "values": "Onze Waarden",
+            "titles": [
+                "Uitgebreide Voorraad",
+                "Kwaliteitsborging",
+                "Snelle Wereldwijde Verzending",
+                "Deskundige Ondersteuning"
+            ],
+            "descriptions": [
+                "Bij MarinePartSystem zijn we er trots op dat we een van de meest uitgebreide voorraden scheepsmotoronderdelen aanhouden. Elk item dat we op voorraad hebben, wordt zorgvuldig gecontroleerd op slijtage, lekken en betrouwbaarheid om ervoor te zorgen dat u alleen componenten van de hoogste kwaliteit ontvangt. Onze onderdelen voldoen aan of overtreffen de OEM-specificaties, wat u het vertrouwen geeft dat uw vaartuig optimaal zal presteren — reis na reis.",
+                "Ons strikte kwaliteitsborgingsproces zorgt ervoor dat elk onderdeel dat we verkopen voldoet aan de industrienormen of deze overtreft. We voeren gedetailleerde inspecties en tests uit om de betrouwbaarheid en prestaties van uw scheepsmotoren te garanderen.",
+                "Wij begrijpen dat downtime geld kost. Daarom bieden we snelle, betrouwbare verzending naar havens en jachthavens wereldwijd. Onze logistieke partners zorgen ervoor dat uw onderdelen op tijd aankomen, waar u ook bent.",
+                "Ons team bestaat uit ervaren maritieme ingenieurs en onderdelenspecialisten die klaarstaan om u te helpen. Van onderdeelidentificatie tot installatieadvies, we zijn er om u bij elke stap te ondersteunen."
+            ]
+        },
+        "updates": {
+            "title": "Blijf op de hoogte",
+            "desc": "Ontvang scherpe aanbiedingen, nieuwe productupdates en handige technische tips.",
+            "placeholder": "Voer e-mail in",
+            "button": "Ontvang updates"
+        }
+    }
+}

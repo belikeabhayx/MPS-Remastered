@@ -1,36 +1,92 @@
 {
-  "nav": {
-    "home": "Inicio",
-    "shop": "Tienda",
-    "blog": "Blog",
-    "cart": "Carrito",
-    "checkout": "Pagar"
-  },
-  "product": {
-    "addToCart": "Añadir al carrito",
-    "outOfStock": "Agotado",
-    "related": "Productos relacionados",
-    "price": "Precio",
-    "description": "Descripción"
-  },
-  "cart": {
-    "title": "Tu carrito",
-    "empty": "Tu carrito está vacío",
-    "total": "Total",
-    "remove": "Eliminar",
-    "proceedToCheckout": "Proceder al pago"
-  },
-  "checkout": {
-    "title": "Pagar",
-    "name": "Nombre completo",
-    "email": "Correo electrónico",
-    "address": "Dirección",
-    "city": "Ciudad",
-    "placeOrder": "Realizar pedido",
-    "success": "¡Pedido realizado con éxito!"
-  },
-  "blog": {
-    "title": "Blog",
-    "readMore": "Leer más"
-  }
+  "home": {
+        "hero": {
+            "tagline": "Marine Part System",
+            "title": "¡Construido para mantenerte en marcha!",
+            "engineParts": "Piezas de motor",
+            "enginePartsDesc": "Todos los componentes centrales de su motor marino: refrigeración, escape, combustible, juntas y más.",
+            "enginePartsLink": "/es/categoria-producto/engine-parts",
+            "serviceParts": "Piezas de recambio",
+            "servicePartsDesc": "Todos los componentes centrales de su motor marino: refrigeración, escape, combustible, juntas y más.",
+            "servicePartsLink": "/es/categoria-producto/engine-service-parts",
+            "engineCooling": "Refrigeración",
+            "engineCoolingDesc": "Bombas de agua, termostatos y soluciones completas para el sistema de refrigeración de su embarcación.",
+            "engineCoolingLink": "/es/categoria-producto/engine-parts/cooling-systems",
+            "electrical": "Eléctrico",
+            "electricalDesc": "Baterías marinas, cableado, arrancadores, alternadores y otras piezas eléctricas.",
+            "electricalLink": "/es/categoria-producto/engine-parts/electrical-systems",
+            "pumps": "Bombas",
+            "pumpsDesc": "Bombas de sentina, bombas de agua dulce y soluciones completas de bombeo para su embarcación.",
+            "pumpsLink": "/es/categoria-producto/engine-parts/cooling-systems/water-pumps",
+            "engine": "Motores"
+        },
+        "browse": {
+            "tagline": "Resumen de categorías",
+            "title": "Explorar todas las categorías",
+            "desc": "Desde motores completos hasta la junta más pequeña: explore todas las categorías de nuestra tienda.",
+            "button": "Ver todo"
+        },
+        "featured": "Productos destacados",
+        "featuredDesc": "Una muestra de lo que enviamos diariamente desde nuestro almacén.",
+        "popular": "Categorías populares",
+        "popularDesc": "Acceso rápido a las marcas y sistemas con los que trabaja más.",
+        "latestNews": "Últimas noticias",
+        "viewAll": "Ver todo",
+        "trust": "Con la confianza de profesionales de todo el mundo",
+        "testimonials": {
+            "title": "Nuestros clientes",
+            "subtitle": "están satisfechos",
+            "rateUs": "Los clientes nos califican con",
+            "basedOn": "basado en",
+            "reviews": "reseñas",
+            "excellent": "Excelente",
+            "veryGood": "Muy bueno",
+            "good": "Bueno",
+            "verifiedBuyer": "Comprador verificado",
+            "fallbackReviews": [
+                {
+                    "id": 1,
+                    "rating": 5,
+                    "content": "¡La entrega más rápida que he experimentado! Hice mi pedido el jueves a la hora del almuerzo y tuve los soportes del motor en mis manos a las 10:15. Entrega muy rápida y comunicación clara.",
+                    "author": "Patrick",
+                    "date": "1 de ene. de 2025"
+                },
+                {
+                    "id": 2,
+                    "rating": 5,
+                    "content": "Gran selección de productos y excelente servicio al cliente. Las piezas llegaron rápido y eran exactamente como se describían.",
+                    "author": "Sarah",
+                    "date": "15 de dic. de 2024"
+                },
+                {
+                    "id": 3,
+                    "rating": 4,
+                    "content": "Realmente impresionado con la calidad y el envío rápido. Definitivamente volveré a pedir para mi barco.",
+                    "author": "James",
+                    "date": "20 de nov. de 2024"
+                }
+            ]
+        },
+        "inventory": {
+            "values": "Nuestros Valores",
+            "titles": [
+                "Inventario Amplio",
+                "Garantía de Calidad",
+                "Envío Rápido Mundial",
+                "Soporte Experto"
+            ],
+            "descriptions": [
+                "En MarinePartSystem, nos enorgullecemos de mantener uno de los inventarios más amplios de piezas para motores marinos. Cada artículo que almacenamos es cuidadosamente inspeccionado para detectar desgaste, fugas y confiabilidad para asegurar que obtenga solo componentes de la más alta calidad. Nuestras piezas cumplen o superan las especificaciones OEM, brindándole la confianza de que su embarcación funcionará al máximo, viaje tras viaje.",
+                "Nuestro riguroso proceso de garantía de calidad asegura que cada pieza que vendemos cumpla o supere los estándares de la industria. Realizamos inspecciones detalladas y pruebas para garantizar la confiabilidad y el rendimiento de sus motores marinos.",
+                "Entendemos que el tiempo de inactividad cuesta dinero. Por eso ofrecemos envíos rápidos y confiables a puertos y marinas de todo el mundo. Nuestros socios logísticos aseguran que sus piezas lleguen a tiempo, donde sea que esté.",
+                "Nuestro equipo está formado por ingenieros marinos experimentados y especialistas en piezas que están listos para ayudarle. Desde la identificación de piezas hasta el asesoramiento de instalación, estamos aquí para apoyarle en cada paso del camino."
+            ]
+        },
+        "updates": {
+            "title": "Mantente informado",
+            "desc": "Recibe ofertas exclusivas, actualizaciones de nuevos productos y consejos técnicos útiles.",
+            "placeholder": "Ingrese correo electrónico",
+            "button": "Obtener actualizaciones"
+        }
+    }
 }

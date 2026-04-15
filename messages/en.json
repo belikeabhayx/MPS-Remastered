@@ -1,36 +1,92 @@
 {
-  "nav": {
-    "home": "Home",
-    "shop": "Shop",
-    "blog": "Blog",
-    "cart": "Cart",
-    "checkout": "Checkout"
-  },
-  "product": {
-    "addToCart": "Add to Cart",
-    "outOfStock": "Out of Stock",
-    "related": "Related Products",
-    "price": "Price",
-    "description": "Description"
-  },
-  "cart": {
-    "title": "Your Cart",
-    "empty": "Your cart is empty",
-    "total": "Total",
-    "remove": "Remove",
-    "proceedToCheckout": "Proceed to Checkout"
-  },
-  "checkout": {
-    "title": "Checkout",
-    "name": "Full Name",
-    "email": "Email",
-    "address": "Address",
-    "city": "City",
-    "placeOrder": "Place Order",
-    "success": "Order placed successfully!"
-  },
-  "blog": {
-    "title": "Blog",
-    "readMore": "Read More"
+  "home": {
+    "hero": {
+      "tagline": "Marine Part System",
+      "title": "Built to keep you running!",
+      "engineParts": "Engine Parts",
+      "enginePartsDesc": "All core components around your marine engine: cooling, exhaust, fuel, gaskets and more.",
+      "enginePartsLink": "/product-category/engine-parts",
+      "serviceParts": "Service Parts",
+      "servicePartsDesc": "Filters, oils, belts, impellers and complete service kits for your servicing.",
+      "servicePartsLink": "/product-category/engine-service-parts",
+      "engineCooling": "Cooling",
+      "engineCoolingDesc": "Water pumps, thermostats, and complete cooling system solutions for your vessel.",
+      "engineCoolingLink": "/product-category/engine-parts/cooling-systems",
+      "electrical": "Electrical",
+      "electricalDesc": "Marine batteries, wiring, starters, alternators and other electrical parts.",
+      "electricalLink": "/product-category/engine-parts/electrical-systems",
+      "pumps": "Pumps",
+      "pumpsDesc": "Bilge pumps, fresh water pumps, and complete pumping solutions for your vessel.",
+      "pumpsLink": "/product-category/engine-parts/cooling-systems/water-pumps",
+      "engine": "Engine"
+    },
+    "browse": {
+      "tagline": "Category Overview",
+      "title": "Browse all categories",
+      "desc": "From complete engines to the smallest gasket — explore every category in our webshop.",
+      "button": "Browse all"
+    },
+    "featured": "Featured Products",
+    "featuredDesc": "A snapshot of what ships daily from our warehouse.",
+    "popular": "Popular Categories",
+    "popularDesc": "Quick access to the brands and systems you work with most.",
+    "latestNews": "Latest News",
+    "viewAll": "View All",
+    "trust": "Trusted by professionals worldwide",
+    "testimonials": {
+      "title": "Our customers",
+      "subtitle": "are satisfied",
+      "rateUs": "Customers rate us with",
+      "basedOn": "based on",
+      "reviews": "reviews",
+      "excellent": "Excellent",
+      "veryGood": "Very Good",
+      "good": "Good",
+      "verifiedBuyer": "Verified buyer",
+      "fallbackReviews": [
+        {
+          "id": 1,
+          "rating": 5,
+          "content": "Fastest delivery I've ever experienced! Placed my order Thursday lunchtime, had the motor mounts in my hands 10:15. Very fast delivery and clear communication.",
+          "author": "Patrick",
+          "date": "Jan 1, 2025"
+        },
+        {
+          "id": 2,
+          "rating": 5,
+          "content": "Great product selection and excellent customer service. The parts arrived quickly and were exactly as described.",
+          "author": "Sarah",
+          "date": "Dec 15, 2024"
+        },
+        {
+          "id": 3,
+          "rating": 4,
+          "content": "Really impressed with the quality and the fast shipping. Will definitely order again for my boat.",
+          "author": "James",
+          "date": "Nov 20, 2024"
+        }
+      ]
+    },
+    "inventory": {
+      "values": "Our Values",
+      "titles": [
+        "Extensive Inventory",
+        "Quality Assurance",
+        "Fast Global Shipping",
+        "Expert Support"
+      ],
+      "descriptions": [
+        "At MarinePartSystem, we take pride in maintaining one of the most extensive inventories of marine engine parts. Every item we stock is carefully inspected for wear, leaks, and reliability to ensure you get only the highest quality components. Our parts meet or exceed OEM specifications, giving you the confidence that your vessel will perform at its best—trip after trip.",
+        "Our rigorous quality assurance process ensures that every part we sell meets or exceeds industry standards. We perform detailed inspections and testing to guarantee reliability and performance for your marine engines.",
+        "We understand that downtime costs money. That's why we offer fast, reliable shipping to ports and marinas worldwide. Our logistics partners ensure your parts arrive on time, wherever you are.",
+        "Our team consists of experienced marine engineers and parts specialists who are ready to assist you. From part identification to installation advice, we are here to support you every step of the way."
+      ]
+    },
+    "updates": {
+      "title": "Stay informed",
+      "desc": "Receive sharp offers, new product updates and helpful technical tips.",
+      "placeholder": "Enter e-mail",
+      "button": "Get updates"
+    }
   }
 }

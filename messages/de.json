@@ -1,0 +1,92 @@
+{
+    "home": {
+        "hero": {
+            "tagline": "Marine Part System",
+            "title": "Gebaut, um Sie am Laufen zu halten!",
+            "engineParts": "Motorenteile",
+            "enginePartsDesc": "Alle Kernkomponenten rund um Ihren Schiffsmotor: Kühlung, Auspuff, Kraftstoff, Dichtungen und mehr.",
+            "enginePartsLink": "/de/produkt-kategorie/engine-parts",
+            "serviceParts": "Service Teile",
+            "servicePartsDesc": "Alle Kernkomponenten rund um Ihren Schiffsmotor: Kühlung, Auspuff, Kraftstoff, Dichtungen und mehr.",
+            "servicePartsLink": "/de/produkt-kategorie/engine-service-parts",
+            "engineCooling": "Kühlung",
+            "engineCoolingDesc": "Wasserpumpen, Thermostate und komplette Kühlsystemlösungen für Ihr Schiff.",
+            "engineCoolingLink": "/de/produkt-kategorie/engine-parts/cooling-systems",
+            "electrical": "Elektrik",
+            "electricalDesc": "Marinebatterien, Verkabelung, Anlasser, Lichtmaschinen und andere elektrische Teile.",
+            "electricalLink": "/de/produkt-kategorie/engine-parts/electrical-systems",
+            "pumps": "Pumpen",
+            "pumpsDesc": "Bilgenpumpen, Frischwasserpumpen und komplette Pumpenlösungen für Ihr Schiff.",
+            "pumpsLink": "/de/produkt-kategorie/engine-parts/cooling-systems/water-pumps",
+            "engine": "Motoren"
+        },
+        "browse": {
+            "tagline": "Kategorie Übersicht",
+            "title": "Alle Kategorien durchsuchen",
+            "desc": "Von kompletten Motoren bis zur kleinsten Dichtung — erkunden Sie jede Kategorie in unserem Webshop.",
+            "button": "Alle ansehen"
+        },
+        "featured": "Ausgewählte Produkte",
+        "featuredDesc": "Ein Überblick über das, was täglich aus unserem Lager versendet wird.",
+        "popular": "Beliebte Kategorien",
+        "popularDesc": "Schneller Zugriff auf die Marken und Systeme, mit denen Sie am häufigsten arbeiten.",
+        "latestNews": "Aktuelle Nachrichten",
+        "viewAll": "Alle ansehen",
+        "trust": "Weltweit von Profis vertraut",
+        "testimonials": {
+            "title": "Unsere Kunden",
+            "subtitle": "sind zufrieden",
+            "rateUs": "Kunden bewerten uns mit",
+            "basedOn": "basierend auf",
+            "reviews": "Bewertungen",
+            "excellent": "Ausgezeichnet",
+            "veryGood": "Sehr gut",
+            "good": "Gut",
+            "verifiedBuyer": "Verifizierter Käufer",
+            "fallbackReviews": [
+                {
+                    "id": 1,
+                    "rating": 5,
+                    "content": "Schnellste Lieferung, die ich je erlebt habe! Habe meine Motorlager am Donnerstagmittag bestellt und hatte sie um 10:15 Uhr in den Händen. Sehr schnelle Lieferung und klare Kommunikation.",
+                    "author": "Patrick",
+                    "date": "1. Jan. 2025"
+                },
+                {
+                    "id": 2,
+                    "rating": 5,
+                    "content": "Große Produktauswahl und exzellenter Kundenservice. Die Teile kamen schnell an und waren genau wie beschrieben.",
+                    "author": "Sarah",
+                    "date": "15. Dez. 2024"
+                },
+                {
+                    "id": 3,
+                    "rating": 4,
+                    "content": "Wirklich beeindruckt von der Qualität und dem schnellen Versand. Werde definitiv wieder für mein Boot bestellen.",
+                    "author": "James",
+                    "date": "20. Nov. 2024"
+                }
+            ]
+        },
+        "inventory": {
+            "values": "Unsere Werte",
+            "titles": [
+                "Umfangreiches Inventar",
+                "Qualitätssicherung",
+                "Schneller weltweiter Versand",
+                "Expertenunterstützung"
+            ],
+            "descriptions": [
+                "Bei MarinePartSystem sind wir stolz darauf, eines der umfangreichsten Lager an Schiffsmotorenteilen zu führen. Jedes Teil in unserem Bestand wird sorgfältig auf Verschleiß, Lecks und Zuverlässigkeit geprüft, um sicherzustellen, dass Sie nur Komponenten von höchster Qualität erhalten. Unsere Teile erfüllen oder übertreffen die OEM-Spezifikationen, was Ihnen das Vertrauen gibt, dass Ihr Schiff seine beste Leistung erbringt – Reise für Reise.",
+                "Unser strenger Qualitätssicherungsprozess stellt sicher, dass jedes von uns verkaufte Teil die Industriestands erfüllt oder übertrifft. Wir führen detaillierte Inspektionen und Tests durch, um Zuverlässigkeit und Leistung für Ihre Schiffsmotoren zu garantieren.",
+                "Wir verstehen, dass Ausfallzeiten Geld kosten. Deshalb bieten wir einen schnellen, zuverlässigen Versand zu Häfen und Marinas weltweit an. Unsere Logistikpartner sorgen dafür, dass Ihre Teile pünktlich ankommen, wo immer Sie auch sind.",
+                "Unser Team besteht aus erfahrenen Schiffsingenieuren und Teilespezialisten, die bereit sind, Ihnen zu helfen. Von der Identifizierung der Teile bis hin zur Beratung bei der Installation sind wir hier, um Sie bei jedem Schritt zu unterstützen."
+            ]
+        },
+        "updates": {
+            "title": "Bleib informiert",
+            "desc": "Erhalten Sie scharfe Angebote, neue Produktaktualisierungen und hilfreiche technische Tipps.",
+            "placeholder": "E-Mail eingeben",
+            "button": "Updates erhalten"
+        }
+    }
+}

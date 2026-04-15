@@ -1,9 +1,12 @@
-import LanguageSwitcher from "@/components/LanguageSwitcher.tsx";
+import BrowseCategories from "@/components/homepage/BrowseCategories";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 const page = () => {
   return (
     <div>
       <LanguageSwitcher />
+      <BrowseCategories/>
     </div>
   );
 };
