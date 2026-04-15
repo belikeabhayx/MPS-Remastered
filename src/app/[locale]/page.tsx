@@ -5,7 +5,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 const page = () => {
   return (
     <div>
-      <LanguageSwitcher />
+  
       <BrowseCategories/>
     </div>
   );
