@@ -6,7 +6,7 @@ export async function fetchBlogs(page: number = 1, perPage: number = 9, lang?: s
 
     try {
         const response = await fetch(`${WP_API_URL}?_embed&page=${page}&per_page=${perPage}`,
-            { cache: 'no-store' });
+            { next: { revalidate: 3600 } });
 
         if (!response.ok) {
             throw new Error('Failed to fetch a blogs')
@@ -27,4 +27,27 @@ export async function fetchBlogs(page: number = 1, perPage: number = 9, lang?: s
     }
 
 
+}
+
+export async function fetchBlogsBySlug(slug: string): Promise<BlogPost | null> {
+    try {
+        const response = await fetch(`${WP_API_URL}?slug=${slug}&_embed`, { next: { revalidate: 3600 } });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch blog post');
+        }
+
+        const posts: BlogPost[] = await response.json();
+
+        if (posts.length > 0) {
+            return posts[0];
+        }
+
+        return null;
+
+    } catch (error: any) {
+        if (error?.digest === 'DYNAMIC_SERVER_USAGE') throw error;
+        console.error('Error fetching blog post:', error);
+        return null;
+    }
 }
