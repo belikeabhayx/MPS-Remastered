@@ -1,11 +1,12 @@
 import { BlogPost } from "./types";
 
-export const WP_API_URL = `${process.env.WOOCOMMERCE_URL}/wp-json/wp/v2/posts`;
+export const WP_BLOG_API_URL = `${process.env.WOOCOMMERCE_URL}/wp-json/wp/v2/posts`;
 
 export async function fetchBlogs(page: number = 1, perPage: number = 9, lang?: string): Promise<{ posts: BlogPost[], totalPages: number }> {
 
     try {
-        const response = await fetch(`${WP_API_URL}?_embed&page=${page}&per_page=${perPage}`,
+        const langParam = lang ? `&lang=${lang}` : '';
+        const response = await fetch(`${WP_BLOG_API_URL}?_embed&page=${page}&per_page=${perPage}${langParam}`,
             { next: { revalidate: 3600 } });
 
         if (!response.ok) {
@@ -29,9 +30,12 @@ export async function fetchBlogs(page: number = 1, perPage: number = 9, lang?: s
 
 }
 
-export async function fetchBlogsBySlug(slug: string): Promise<BlogPost | null> {
+export async function fetchBlogsBySlug(slug: string, lang?: string): Promise<BlogPost | null> {
     try {
-        const response = await fetch(`${WP_API_URL}?slug=${slug}&_embed`, { next: { revalidate: 3600 } });
+
+        const langParam = lang ? `&lang=${lang}` : '';
+
+        const response = await fetch(`${WP_BLOG_API_URL}?slug=${slug}&_embed${langParam}`, { next: { revalidate: 3600 } });
 
         if (!response.ok) {
             throw new Error('Failed to fetch blog post');
