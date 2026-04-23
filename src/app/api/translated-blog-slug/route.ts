@@ -32,7 +32,7 @@ async function fetchPostBySlug(slug: string, lang?: string) {
     const params = new URLSearchParams({
         slug,
         per_page: '1',
-        _fields: 'id,slug',
+        _fields: 'id,slug,date',
     });
 
     if (lang) params.set('lang', lang);
@@ -41,7 +41,7 @@ async function fetchPostBySlug(slug: string, lang?: string) {
     if (!res.ok) return null;
 
     const posts = await res.json();
-    return posts[0] as { id: number; slug: string } | undefined ?? null;
+    return posts[0] as { id: number; slug: string; date: string } | undefined ?? null;
 }
 
 /**
@@ -55,6 +55,41 @@ async function fetchTranslatedSlug(postId: number, lang: string) {
     });
 
     params.append('include[]', String(postId));
+
+    const res = await fetchWithTimeout(`${WP_BLOG_API_URL}?${params}`);
+    if (!res.ok) return null;
+
+    const posts = await res.json();
+    return posts[0]?.slug ?? null;
+}
+
+/**
+ * Fetch post slug by date (fallback for default language)
+ */
+async function fetchPostByDate(date: string, lang: string) {
+    // WP uses ISO dates. We search with a 2-second window to be safe.
+    // WP uses local dates in the API for after/before.
+    // We manually adjust the seconds to create a 2-second window.
+    const dateStr = date; // e.g. "2025-11-02T15:53:20"
+    const [datePart, timePart] = dateStr.split('T');
+    const [h, m, s] = timePart.split(':').map(Number);
+
+    const d = new Date(2000, 0, 1, h, m, s); // temporary date object to handle overflow
+    const dAfter = new Date(d.getTime() - 1000);
+    const dBefore = new Date(d.getTime() + 1000);
+
+    const formatTime = (dateObj: Date) => dateObj.toTimeString().split(' ')[0];
+    
+    const after = `${datePart}T${formatTime(dAfter)}`;
+    const before = `${datePart}T${formatTime(dBefore)}`;
+
+    const params = new URLSearchParams({
+        lang,
+        after,
+        before,
+        per_page: '1',
+        _fields: 'slug',
+    });
 
     const res = await fetchWithTimeout(`${WP_BLOG_API_URL}?${params}`);
     if (!res.ok) return null;
@@ -97,7 +132,12 @@ export async function GET(request: NextRequest) {
         }
 
         // 2️⃣ Get translated slug (works for ALL languages including English)
-        const translatedSlug = await fetchTranslatedSlug(sourcePost.id, lang);
+        let translatedSlug = await fetchTranslatedSlug(sourcePost.id, lang);
+
+        // 3️⃣ Fallback for default language (English) where ID-based lookup often fails
+        if (!translatedSlug && sourcePost.date) {
+            translatedSlug = await fetchPostByDate(sourcePost.date, lang);
+        }
 
         if (translatedSlug) {
             return NextResponse.json({ slug: translatedSlug });
