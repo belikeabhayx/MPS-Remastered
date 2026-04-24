@@ -21,7 +21,7 @@ export async function fetchBlogs(page: number = 1, perPage: number = 9, lang?: s
         const posts: BlogPost[] = await response.json();
         return { posts, totalPages };
 
-    } catch (error) {
+    } catch (error: any) {
         if (error?.digest === 'DYNAMIC_SERVER_USAGE') throw error;
         console.error('Error fetching blogs:', error);
         return { posts: [], totalPages: 0 };

@@ -42,17 +42,17 @@ const Footer = async ({ ctaBackground }: FooterProps) => {
                         </div>
 
                         <div className="flex gap-4">
-                            <Link href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <Facebook size={16} fill="currentColor" />
-                            </Link>
-                            <Link href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            </a>
+                            <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <Linkedin size={16} fill="currentColor" />
-                            </Link>
-                            <Link href="#" aria-label="X" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            </a>
+                            <a href="#" aria-label="X" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                 </svg>
-                            </Link>
+                            </a>
                         </div>
                     </div>
 
@@ -60,10 +60,10 @@ const Footer = async ({ ctaBackground }: FooterProps) => {
                     <div>
                         <h3 className="text-xl font-serif mb-6">{t('shopByBrand')}</h3>
                         <ul className="space-y-3 text-gray-300 text-sm font-satoshi">
-                            <li><Link href={`/product-category/volvo-penta`} className="hover:text-white transition-colors">Volvo Penta Parts</Link></li>
-                            <li><Link href={`/product-category/yanmar`} className="hover:text-white transition-colors">Yanmar Parts</Link></li>
-                            <li><Link href={`/product-category/nanni`} className="hover:text-white transition-colors">Nanni Parts</Link></li>
-                            <li><Link href={`/product-category/vetus`} className="hover:text-white transition-colors">Vetus Parts</Link></li>
+                            <li><Link href={{ pathname: '/product-category/[slug]', params: { slug: 'volvo-penta' } }} className="hover:text-white transition-colors">Volvo Penta Parts</Link></li>
+                            <li><Link href={{ pathname: '/product-category/[slug]', params: { slug: 'yanmar' } }} className="hover:text-white transition-colors">Yanmar Parts</Link></li>
+                            <li><Link href={{ pathname: '/product-category/[slug]', params: { slug: 'nanni' } }} className="hover:text-white transition-colors">Nanni Parts</Link></li>
+                            <li><Link href={{ pathname: '/product-category/[slug]', params: { slug: 'vetus' } }} className="hover:text-white transition-colors">Vetus Parts</Link></li>
                         </ul>
                     </div>
 

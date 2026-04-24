@@ -122,5 +122,8 @@
             "placeholder": "Voer uw e-mailadres in",
             "subscribe": "Abonneren"
         }
+    },
+     "upperStrip": {
+        "freeShipping": "Gratis verzending voor bestellingen boven €1000"
     }
 }

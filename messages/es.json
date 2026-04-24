@@ -122,5 +122,8 @@
             "placeholder": "Introduce tu correo electrónico",
             "subscribe": "Suscribirse"
         }
+    },
+    "upperStrip": {
+        "freeShipping": "Envío gratis en pedidos superiores a €1000"
     }
 }

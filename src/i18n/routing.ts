@@ -18,6 +18,12 @@ export const routing = defineRouting({
       de: "/produkt-kategorie",
       nl: "/product-categorie",
     },
+    "/product-category/[slug]": {
+      en: "/product-category/[slug]",
+      es: "/categoria-producto/[slug]",
+      de: "/produkt-kategorie/[slug]",
+      nl: "/product-categorie/[slug]",
+    },
     "/blogs": {
       en: '/blogs',
       es: '/blogs',

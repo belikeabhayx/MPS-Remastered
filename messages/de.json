@@ -122,5 +122,8 @@
             "placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
             "subscribe": "Abonnieren"
         }
+    },
+    "upperStrip": {
+        "freeShipping": "Kostenloser Versand ab 1000 €"
     }
 }
