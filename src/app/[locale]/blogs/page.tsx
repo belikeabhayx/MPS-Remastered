@@ -1,6 +1,7 @@
 import { fetchBlogs } from '@/lib/woocommerce/blogs'
 import BlogsHomepage from './components/BlogHomepage'
 import { getLocale } from 'next-intl/server';
+import Footer from '@/components/footer/footer';
 
 const Blogspage = async () => {
 
@@ -16,6 +17,7 @@ const Blogspage = async () => {
                 totalPages={totalPages}
                 currentPage={1}
             />
+            <Footer />
         </div>
     )
 }

@@ -88,5 +88,39 @@
       "placeholder": "Enter e-mail",
       "button": "Get updates"
     }
-  }
+  },
+   "footer": {
+        "shopByBrand": "Shop by Brand",
+        "addresses": "Addresses",
+        "mainAddress": "Main Address:",
+        "returnAddress": "Return Goods Address",
+        "deliveryPartner": "Our Delivery Partner",
+        "privacyPolicy": "Privacy policy",
+        "termsConditions": "Terms & conditions",
+        "paymentDelivery": "Payment & delivery",
+        "rightOfWithdrawal": "Right of withdrawal",
+        "legalNotice": "Legal notice",
+        "cookiePolicy": "Cookie policy",
+        "specialists": "Specialists in Volvo Penta, Yanmar, Vetus and Nanni marine parts.",
+        "phone": "Phone:",
+        "email": "Email:",
+        "coc": "COC:",
+        "vat": "VAT:",
+        "quickLinks": "Quick Links",
+        "contactUs": "Contact Us",
+        "allRightsReserved": "All rights reserved",
+        "emailAddress": "info@marinepartsystem.com",
+        "cta": {
+            "title": "Need help choosing the right part?",
+            "description": "Contact us with your engine type or part number - we’ll make sure you get the correct one. Quick response and honest advice.",
+            "primaryButton": "Get in touch",
+            "secondaryButton": "Reach out"
+        },
+        "newsletter": {
+            "title": "Subscribe to our newsletter",
+            "description": "Get the latest updates and offers.",
+            "placeholder": "Enter your email address",
+            "subscribe": "Subscribe"
+        }
+    }
 }

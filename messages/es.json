@@ -1,5 +1,5 @@
 {
-  "home": {
+    "home": {
         "hero": {
             "tagline": "Marine Part System",
             "title": "¡Construido para mantenerte en marcha!",
@@ -87,6 +87,40 @@
             "desc": "Recibe ofertas exclusivas, actualizaciones de nuevos productos y consejos técnicos útiles.",
             "placeholder": "Ingrese correo electrónico",
             "button": "Obtener actualizaciones"
+        }
+    },
+    "footer": {
+        "shopByBrand": "Comprar por marca",
+        "addresses": "Direcciones",
+        "mainAddress": "Dirección principal:",
+        "returnAddress": "Dirección de devolución",
+        "deliveryPartner": "Nuestro socio de entrega",
+        "privacyPolicy": "Política de privacidad",
+        "termsConditions": "Términos y condiciones",
+        "paymentDelivery": "Pago y entrega",
+        "rightOfWithdrawal": "Derecho de desistimiento",
+        "legalNotice": "Aviso legal",
+        "cookiePolicy": "Política de cookies",
+        "specialists": "Especialistas en repuestos marinos Volvo Penta, Yanmar, Vetus y Nanni.",
+        "phone": "Teléfono:",
+        "email": "Correo electrónico:",
+        "coc": "Registro mercantil:",
+        "vat": "NIF:",
+        "quickLinks": "Enlaces rápidos",
+        "contactUs": "Contáctenos",
+        "allRightsReserved": "Todos los derechos reservados",
+        "emailAddress": "info@marinepartsystem.com",
+        "cta": {
+            "title": "¿Necesita ayuda para elegir la pieza correcta?",
+            "description": "Contáctenos con su tipo de motor o número de pieza; nos aseguraremos de que obtenga la correcta. Respuesta rápida y asesoramiento honesto.",
+            "primaryButton": "Ponerse en contacto",
+            "secondaryButton": "Alcanzarnos"
+        },
+        "newsletter": {
+            "title": "Suscríbete a nuestro boletín",
+            "description": "Obtén las últimas actualizaciones y ofertas.",
+            "placeholder": "Introduce tu correo electrónico",
+            "subscribe": "Suscribirse"
         }
     }
 }

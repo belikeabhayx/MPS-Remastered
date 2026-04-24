@@ -88,5 +88,39 @@
             "placeholder": "Voer e-mail in",
             "button": "Ontvang updates"
         }
+    },
+    "footer": {
+        "shopByBrand": "Winkel per merk",
+        "addresses": "Adressen",
+        "mainAddress": "Hoofdadres:",
+        "returnAddress": "Retouradres",
+        "deliveryPartner": "Onze bezorgpartner",
+        "privacyPolicy": "Privacybeleid",
+        "termsConditions": "Algemene voorwaarden",
+        "paymentDelivery": "Betaling & levering",
+        "rightOfWithdrawal": "Herroepingsrecht",
+        "legalNotice": "Juridische kennisgeving",
+        "cookiePolicy": "Cookiebeleid",
+        "specialists": "Specialisten in Volvo Penta, Yanmar, Vetus en Nanni scheepsonderdelen.",
+        "phone": "Telefoon:",
+        "email": "E-mail:",
+        "coc": "KvK:",
+        "vat": "BTW:",
+        "quickLinks": "Snelle Links",
+        "contactUs": "Neem contact op",
+        "allRightsReserved": "Alle rechten voorbehouden",
+        "emailAddress": "info@marinepartsystem.com",
+        "cta": {
+            "title": "Hulp nodig bij het kiezen van het juiste onderdeel?",
+            "description": "Neem contact met ons op met uw motortype of onderdeelnummer - wij zorgen ervoor dat u de juiste krijgt. Snelle reactie en eerlijk advies.",
+            "primaryButton": "Neem contact op",
+            "secondaryButton": "Bereik ons"
+        },
+        "newsletter": {
+            "title": "Abonneer op onze nieuwsbrief",
+            "description": "Ontvang de laatste updates en aanbiedingen.",
+            "placeholder": "Voer uw e-mailadres in",
+            "subscribe": "Abonneren"
+        }
     }
 }
