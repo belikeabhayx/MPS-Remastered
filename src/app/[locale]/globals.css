@@ -91,4 +91,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  .blog-content h1,
+  .blog-content h2,
+  .blog-content h3 {
+    scroll-margin-top: 100px;
+  }
 }

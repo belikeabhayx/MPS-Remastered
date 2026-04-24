@@ -1,10 +1,6 @@
-'use client'
-import React from 'react'
 import BlogCard from './BlogCard'
 import type { BlogPost } from '@/lib/woocommerce/types';
 import BlogPagination from './BlogPagination';
-
-
 
 interface BlogsHomepageProps {
   posts: BlogPost[];
@@ -40,7 +36,7 @@ const BlogsHomepage: React.FC<BlogsHomepageProps> = ({ posts, totalPages, curren
         </div>
 
         {/* Pagination */}
-     <BlogPagination currentPage={currentPage} totalPages={totalPages} />
+        <BlogPagination currentPage={currentPage} totalPages={totalPages} />
       </div>
     </div>
   );
