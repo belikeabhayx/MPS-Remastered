@@ -1,5 +1,4 @@
 import { fetchBlogsBySlug } from '@/lib/woocommerce/blogs';
-import { getLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import BlogSideBar from '../components/BlogSideBar';
@@ -7,14 +6,12 @@ import { SanitizedHTML } from '@/components/common/SanitizedHTML';
 import { extractHeadings } from '@/lib/parse-headings';
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string, locale: string }>
 }
 
 const page = async ({ params }: PageProps) => {
 
-  const locale = await getLocale(); // e.g. "en", "nl", "de"
-
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await fetchBlogsBySlug(slug, locale);
 
   if (!post) notFound();

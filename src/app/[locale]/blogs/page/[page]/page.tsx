@@ -1,6 +1,5 @@
 import { fetchBlogs } from '@/lib/woocommerce/blogs'
 import BlogsHomepage from '../../components/BlogHomepage'
-import { getLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 interface Props {
@@ -8,8 +7,7 @@ interface Props {
 }
 
 const BlogsPage = async ({ params }: Props) => {
-  const { page } = await params;
-  const locale = await getLocale();
+  const { page, locale } = await params;
   const pageNumber = parseInt(page, 10);
 
   if (isNaN(pageNumber) || pageNumber < 2) return notFound();
