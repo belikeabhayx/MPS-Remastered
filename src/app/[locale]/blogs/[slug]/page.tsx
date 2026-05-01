@@ -1,9 +1,25 @@
-import { fetchBlogsBySlug } from '@/lib/woocommerce/blogs';
+import { fetchBlogsBySlug, fetchBlogs } from '@/lib/woocommerce/blogs';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import BlogSideBar from '../components/BlogSideBar';
 import { SanitizedHTML } from '@/components/common/SanitizedHTML';
 import { extractHeadings } from '@/lib/parse-headings';
+import { setRequestLocale } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
+
+export async function generateStaticParams() {
+  const params: { locale: string; slug: string }[] = [];
+
+  for (const locale of routing.locales) {
+    // Fetch a reasonable number of recent blogs to pre-render
+    const { posts } = await fetchBlogs(1, 20, locale);
+    for (const post of posts) {
+      params.push({ locale, slug: post.slug });
+    }
+  }
+
+  return params;
+}
 
 interface PageProps {
   params: Promise<{ slug: string, locale: string }>
@@ -12,6 +28,7 @@ interface PageProps {
 const page = async ({ params }: PageProps) => {
 
   const { slug, locale } = await params;
+  setRequestLocale(locale);
   const post = await fetchBlogsBySlug(slug, locale);
 
   if (!post) notFound();
