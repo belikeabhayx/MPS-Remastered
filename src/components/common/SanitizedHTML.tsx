@@ -26,6 +26,7 @@ export const SanitizedHTML = ({
   return (
     <Tag 
       className={className} 
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: sanitize(content) }} 
     />
   );

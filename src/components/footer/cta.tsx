@@ -23,6 +23,7 @@ const CTA = async ({ background = '#F57C00' }: CTAProps) => {
               src="/footer/pic.avif"
               alt="Support"
               fill
+              sizes="(max-width: 768px) 128px, 192px"
               className="object-cover"
             />
           </div>

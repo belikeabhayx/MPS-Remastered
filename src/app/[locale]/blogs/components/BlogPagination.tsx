@@ -11,13 +11,14 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 interface BlogPaginationProps {
     currentPage: number;
     totalPages: number;
 }
 
-const BlogPagination: React.FC<BlogPaginationProps> = ({ currentPage, totalPages }) => {
+const BlogPaginationInner: React.FC<BlogPaginationProps> = ({ currentPage, totalPages }) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
@@ -64,23 +65,23 @@ const BlogPagination: React.FC<BlogPaginationProps> = ({ currentPage, totalPages
                 for (let i = 1; i <= 5; i++) {
                     pages.push(i);
                 }
-                pages.push('ellipsis');
+                pages.push('ellipsis-1');
                 pages.push(totalPages);
             } else if (currentPage >= totalPages - 3) {
                 // Near end: 1, ..., total-4, total-3, total-2, total-1, total
                 pages.push(1);
-                pages.push('ellipsis');
+                pages.push('ellipsis-1');
                 for (let i = totalPages - 4; i <= totalPages; i++) {
                     pages.push(i);
                 }
             } else {
                 // Middle: 1, ..., current-1, current, current+1, ..., total
                 pages.push(1);
-                pages.push('ellipsis');
+                pages.push('ellipsis-1');
                 pages.push(currentPage - 1);
                 pages.push(currentPage);
                 pages.push(currentPage + 1);
-                pages.push('ellipsis');
+                pages.push('ellipsis-2');
                 pages.push(totalPages);
             }
         }
@@ -101,10 +102,10 @@ const BlogPagination: React.FC<BlogPaginationProps> = ({ currentPage, totalPages
                     />
                 </PaginationItem>
 
-                {pages.map((page, index) => {
-                    if (page === 'ellipsis') {
+                {pages.map((page) => {
+                    if (typeof page === 'string' && page.startsWith('ellipsis')) {
                         return (
-                            <PaginationItem key={`ellipsis-${index}`}>
+                            <PaginationItem key={page}>
                                 <PaginationEllipsis />
                             </PaginationItem>
                         );
@@ -132,5 +133,13 @@ const BlogPagination: React.FC<BlogPaginationProps> = ({ currentPage, totalPages
         </Pagination>
     )
 }
+
+const BlogPagination: React.FC<BlogPaginationProps> = (props) => {
+    return (
+        <Suspense fallback={null}>
+            <BlogPaginationInner {...props} />
+        </Suspense>
+    );
+};
 
 export default BlogPagination

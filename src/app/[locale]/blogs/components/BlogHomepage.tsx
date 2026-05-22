@@ -37,7 +37,7 @@ const BlogsHomepage: React.FC<BlogsHomepageProps> = ({ posts, totalPages, curren
         </div>
 
         {/* Pagination */}
-        <Suspense fallback={<div>Loading pagination...</div>}>
+        <Suspense fallback={<div>Loading pagination…</div>}>
           <BlogPagination currentPage={currentPage} totalPages={totalPages} />
         </Suspense>
       </div>

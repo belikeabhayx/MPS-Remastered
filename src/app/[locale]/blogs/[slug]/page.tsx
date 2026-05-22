@@ -8,17 +8,14 @@ import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams() {
-  const params: { locale: string; slug: string }[] = [];
+  const results = await Promise.all(
+    routing.locales.map(async (locale) => {
+      const { posts } = await fetchBlogs(1, 20, locale);
+      return posts.map(post => ({ locale, slug: post.slug }));
+    })
+  );
 
-  for (const locale of routing.locales) {
-    // Fetch a reasonable number of recent blogs to pre-render
-    const { posts } = await fetchBlogs(1, 20, locale);
-    for (const post of posts) {
-      params.push({ locale, slug: post.slug });
-    }
-  }
-
-  return params;
+  return results.flat();
 }
 
 interface PageProps {
@@ -51,6 +48,7 @@ const page = async ({ params }: PageProps) => {
       <div className="w-full max-w-7xl px-4 md:px-6 mx-auto mb-12">
         <div className="w-full h-[250px] sm:h-[400px] lg:h-[523px] rounded-[24px] relative overflow-hidden border border-gray-200">
           <Image src={featuredImage} alt='blog header image' fill
+            sizes="(max-width: 1280px) 100vw, 1280px"
             className="object-contain"
             priority />
         </div>

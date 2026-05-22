@@ -5,18 +5,19 @@ import { routing } from '@/i18n/routing';
 import { setRequestLocale } from 'next-intl/server';
 
 export async function generateStaticParams() {
-  const params: { locale: string; page: string }[] = [];
+  const results = await Promise.all(
+    routing.locales.map(async (locale) => {
+      const { totalPages } = await fetchBlogs(1, 9, locale);
+      const pagesToPreRender = Math.min(totalPages, 5);
+      const localParams = [];
+      for (let i = 2; i <= pagesToPreRender; i++) {
+        localParams.push({ locale, page: i.toString() });
+      }
+      return localParams;
+    })
+  );
 
-  for (const locale of routing.locales) {
-    const { totalPages } = await fetchBlogs(1, 9, locale);
-    // Pre-render the first 5 pages, others will be rendered on demand
-    const pagesToPreRender = Math.min(totalPages, 5);
-    for (let i = 2; i <= pagesToPreRender; i++) {
-      params.push({ locale, page: i.toString() });
-    }
-  }
-
-  return params;
+  return results.flat();
 }
 
 interface Props {

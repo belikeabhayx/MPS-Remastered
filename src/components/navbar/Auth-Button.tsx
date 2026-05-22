@@ -3,7 +3,7 @@ import React from 'react'
 
 const AuthButton = () => {
     return (
-        <div> <User className="h-5 w-5" /></div>
+        <div> <User className="size-5" /></div>
     )
 }
 

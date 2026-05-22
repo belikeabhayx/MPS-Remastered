@@ -42,13 +42,13 @@ const Footer = async ({ ctaBackground }: FooterProps) => {
                         </div>
 
                         <div className="flex gap-4">
-                            <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="size-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <Facebook size={16} fill="currentColor" />
                             </a>
-                            <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="size-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <Linkedin size={16} fill="currentColor" />
                             </a>
-                            <a href="#" aria-label="X" className="w-8 h-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
+                            <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X" className="size-8 rounded-full bg-white text-[#1E2548] flex items-center justify-center hover:bg-gray-200 transition-colors">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                 </svg>

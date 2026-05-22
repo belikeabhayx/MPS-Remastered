@@ -4,7 +4,7 @@ import { Search } from 'lucide-react'
 const SearchInput = () => {
     return (
         <div className="relative hidden md:block h-[39px] w-[337px]">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-400" />
             <input
                 type="text"
                 placeholder='Search for products...'

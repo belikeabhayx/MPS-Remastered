@@ -41,7 +41,7 @@ function FlagIcon({ code }: { code: string }) {
   if (code === 'de') {
     return (
       <div className="relative w-5 h-3.5 overflow-hidden border border-gray-200 shrink-0 flex flex-col">
-        <div className="h-1/3 w-full bg-black"></div>
+        <div className="h-1/3 w-full bg-[#000000]"></div>
         <div className="h-1/3 w-full bg-[#DD0000]"></div>
         <div className="h-1/3 w-full bg-[#FFCE00]"></div>
       </div>
@@ -61,7 +61,7 @@ function FlagIcon({ code }: { code: string }) {
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
-  const router = useRouter();
+  const { push, replace } = useRouter();
   const pathname = usePathname(); // next-intl pathname without locale prefix
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -82,20 +82,20 @@ export default function LanguageSwitcher() {
         );
         const { slug: translatedSlug } = await res.json();
 
-        router.push(
+        push(
           // @ts-ignore — next-intl dynamic pathnames
           { pathname: '/blogs/[slug]', params: { slug: translatedSlug } },
           { locale: newLocale as any }
         );
       } catch {
-        router.push(pathname as any, { locale: newLocale as any });
+        push(pathname as any, { locale: newLocale as any });
       } finally {
         setLoading(false);
       }
     } else {
       // ✅ Fix: use replace instead of push to avoid history stack issues
       // and pass params so next-intl can correctly match i18n pathnames
-      router.replace(
+      replace(
         // @ts-ignore
         { pathname, params },  // ← pass current params (e.g. category slug)
         { locale: newLocale as any }
@@ -112,13 +112,13 @@ export default function LanguageSwitcher() {
         >
           <span className="flex items-center gap-2">
             {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="size-4 animate-spin" />
             ) : (
               <FlagIcon code={currentLanguage.code} />
             )}
             <span className="text-sm">{currentLanguage.short}</span>
           </span>
-          <ChevronDown className={`w-3.5 h-3.5 mt-px transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`size-3.5 mt-px transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
       </DropdownMenuTrigger>
 
@@ -133,7 +133,7 @@ export default function LanguageSwitcher() {
             <FlagIcon code={lang.code} />
             <span className="text-sm">{lang.label}</span>
             {lang.code === locale && (
-              <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
+              <span className="ml-auto size-1.5 rounded-full bg-primary" />
             )}
           </DropdownMenuItem>
         ))}

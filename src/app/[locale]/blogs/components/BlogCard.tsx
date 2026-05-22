@@ -42,6 +42,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                         src={image}
                         alt={title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                 </div>
@@ -62,11 +63,12 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                 {/* Footer */}
                 <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center gap-2">
-                        <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                        <div className="relative size-6 rounded-full overflow-hidden">
                             <Image
                                 src={authorAvatar}
                                 alt={authorName}
                                 fill
+                                sizes="24px"
                                 className="object-cover"
                             />
                         </div>
