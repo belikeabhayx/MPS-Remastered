@@ -8,6 +8,7 @@ const SearchInput = () => {
             <input
                 type="text"
                 placeholder='Search for products...'
+                aria-label="Search for products"
                 className="w-full rounded-md border bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500"
             />
         </div>

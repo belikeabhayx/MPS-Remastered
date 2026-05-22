@@ -16,7 +16,7 @@ export default function CategoryCard({ title, description, large, href, shopNowT
     return (
       <div className="relative rounded-[8px] bg-[#263586] text-white overflow-hidden shadow-lg w-full h-[223px]">
         {/* Decorative circle background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full bg-[#1e2a6e]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[280px] rounded-full bg-[#1e2a6e]" />
 
         {/* Left engine image */}
         <Image

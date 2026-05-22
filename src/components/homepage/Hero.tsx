@@ -1,8 +1,7 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import Image from 'next/image'
-import React from 'react'
-import { fetchBrands, fetchCategoriesByBrand } from '@/lib/woocommerce/brands';
+import { fetchBrands } from '@/lib/woocommerce/brands';
 import CategoryCard from './CategoryCard';
 
 const PartsFinder = dynamic(() => import("./PartsFinder"), {
@@ -12,8 +11,10 @@ const PartsFinder = dynamic(() => import("./PartsFinder"), {
 });
 
 const Hero = async () => {
-    const t = await getTranslations("home");
-    const resolvedLang = await getLocale();
+    const [t, resolvedLang] = await Promise.all([
+        getTranslations("home"),
+        getLocale()
+    ]);
     const brands = await fetchBrands(resolvedLang);
 
     return (

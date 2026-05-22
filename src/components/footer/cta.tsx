@@ -7,7 +7,7 @@ interface CTAProps {
 import { getTranslations } from 'next-intl/server';
 import { Mail, Phone } from 'lucide-react';
 
-const CTA = async ({ background = '#F57C00' }: CTAProps) => {
+const Cta = async ({ background = '#F57C00' }: CTAProps) => {
   const t = await getTranslations("footer");
   return (
     <div className="container mx-auto px-4 absolute -top-92 md:-top-60 left-1/2 -translate-x-1/2 z-20 max-w-7xl h-[286px]">
@@ -68,4 +68,4 @@ const CTA = async ({ background = '#F57C00' }: CTAProps) => {
   );
 }
 
-export default CTA
+export default Cta

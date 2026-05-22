@@ -6,50 +6,28 @@ import { getWcAuthHeader, WC_API_BASE } from './config';
  * Used for PartsFinder and filtering
  */
 async function fetchAllBrandsRaw(lang?: string): Promise<Brand[]> {
-    let allBrands: Brand[] = [];
-    let page = 1;
-    const perPage = 100;
     const language = lang || 'en';
     const authHeader = getWcAuthHeader();
 
-    while (true) {
-        // Fetch brands from WooCommerce brands API
-        const params = new URLSearchParams({
-            per_page: perPage.toString(),
-            page: page.toString(),
-            hide_empty: 'true',
-            wpml_language: language
-        });
+    const params = new URLSearchParams({
+        per_page: '100',
+        page: '1',
+        hide_empty: 'true',
+        wpml_language: language
+    });
 
-        const response = await fetch(`${WC_API_BASE}/products/brands?${params.toString()}`, {
-            headers: { Authorization: authHeader },
-            next: { revalidate: 3600 }
-        });
+    const response = await fetch(`${WC_API_BASE}/products/brands?${params.toString()}`, {
+        headers: { Authorization: authHeader },
+        next: { revalidate: 3600 }
+    });
 
-        if (!response.ok) {
-            if (page === 1) {
-                console.error(`Failed to fetch brands: ${response.status}`);
-                throw new Error('Failed to fetch brands');
-            }
-            break;
-        }
-
-        const brands: Brand[] = await response.json();
-
-        if (brands.length === 0) {
-            break;
-        }
-
-        allBrands = [...allBrands, ...brands];
-
-        if (brands.length < perPage) {
-            break;
-        }
-
-        page++;
+    if (!response.ok) {
+        console.error(`Failed to fetch brands: ${response.status}`);
+        throw new Error('Failed to fetch brands');
     }
 
-    return allBrands;
+    const brands: Brand[] = await response.json();
+    return brands;
 }
 
 export async function fetchBrands(lang?: string): Promise<Brand[]> {
@@ -230,19 +208,26 @@ export async function fetchModelsByBrandAndCategory(brandId: number, categoryId:
         const modelNamesMap = new Map<number, string>();
 
         for (const product of correctlyFilteredProducts) {
-            // Find "pa_model" attribute or one named "Model" (case insensitive)
-            const modelAttr = product.attributes?.find(a =>
-                a.id === 22 ||
-                a.slug === 'pa_model' ||
-                a.name?.toLowerCase() === 'model' ||
-                a.name?.toLowerCase() === 'engine / model'
-            );
+            let modelAttr = null;
+            if (product.attributes) {
+                for (const a of product.attributes) {
+                    if (
+                        a.id === 22 ||
+                        a.slug === 'pa_model' ||
+                        a.name?.toLowerCase() === 'model' ||
+                        a.name?.toLowerCase() === 'engine / model'
+                    ) {
+                        modelAttr = a;
+                        break;
+                    }
+                }
+            }
 
             if (modelAttr && modelAttr.option_ids) {
                 modelAttr.option_ids.forEach((id, index) => {
                     if (id) {
                         presentModelIds.add(id);
-                        if (modelAttr.options?.[index]) {
+                        if (modelAttr && modelAttr.options?.[index]) {
                             modelNamesMap.set(id, modelAttr.options[index]);
                         }
                     }

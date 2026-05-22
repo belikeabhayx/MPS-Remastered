@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { Facebook, Linkedin } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
-import CTA from './cta';
+import Cta from './cta';
 
 interface FooterProps {
     ctaBackground?: string;
@@ -14,7 +14,7 @@ const Footer = async ({ ctaBackground }: FooterProps) => {
     return (
         <footer className="relative" style={{ background: 'linear-gradient(180deg, #263586 0%, #090D20 100%)' }}>
             {/* Orange CTA Card */}
-            <CTA background={ctaBackground} />
+            <Cta background={ctaBackground} />
 
             {/* Main Footer Content */}
             <div className="container mx-auto px-4 pt-40 pb-8 text-white max-w-7xl">

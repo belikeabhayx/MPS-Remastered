@@ -4,7 +4,6 @@ import { useRouter, usePathname } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
 import { ChevronDown, Loader2 } from "lucide-react";
 
 const languages = [
@@ -107,6 +106,7 @@ export default function LanguageSwitcher() {
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <button
+          type="button"
           disabled={loading}
           className="relative z-0 md:z-101 flex items-center gap-2 bg-[#F3F5FC] px-3 py-1.5 rounded text-sm text-[#0F0F0F] font-medium transition-opacity outline-none"
         >

@@ -2,87 +2,192 @@
 import { useTranslations, useLocale } from 'next-intl'
 import { useRouter } from '@/i18n/routing';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { SanitizedHTML } from '../common/SanitizedHTML';
 import { Loader2 } from 'lucide-react';
 import { Brand, Category } from '@/lib/woocommerce/types';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import Image from 'next/image';
 
 interface PartsFinderProps {
   brands?: Brand[];
   categories?: Category[];
 }
 
-const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
+const EMPTY_BRANDS: Brand[] = [];
+
+type PartsFinderState = {
+  selectedBrandId: string;
+  selectedCategoryId: string;
+  selectedModelId: string;
+  partNo: string;
+  categories: Category[];
+  models: Category[];
+  isLoadingCategories: boolean;
+  isLoadingModels: boolean;
+  isSearchClicked: boolean;
+};
+
+type Action =
+  | { type: 'SET_BRAND'; brandId: string }
+  | { type: 'SET_CATEGORY'; categoryId: string }
+  | { type: 'SET_MODEL'; modelId: string }
+  | { type: 'SET_PART_NO'; partNo: string }
+  | { type: 'FETCH_CATEGORIES_START' }
+  | { type: 'FETCH_CATEGORIES_SUCCESS'; categories: Category[] }
+  | { type: 'FETCH_CATEGORIES_FAILURE' }
+  | { type: 'FETCH_MODELS_START' }
+  | { type: 'FETCH_MODELS_SUCCESS'; models: Category[] }
+  | { type: 'FETCH_MODELS_FAILURE' }
+  | { type: 'SET_SEARCH_CLICKED'; isClicked: boolean };
+
+const initialState: PartsFinderState = {
+  selectedBrandId: "",
+  selectedCategoryId: "",
+  selectedModelId: "",
+  partNo: "",
+  categories: [],
+  models: [],
+  isLoadingCategories: false,
+  isLoadingModels: false,
+  isSearchClicked: false,
+};
+
+function partsFinderReducer(state: PartsFinderState, action: Action): PartsFinderState {
+  switch (action.type) {
+    case 'SET_BRAND':
+      return {
+        ...state,
+        selectedBrandId: action.brandId,
+        selectedCategoryId: "",
+        selectedModelId: "",
+        categories: [],
+        models: [],
+      };
+    case 'SET_CATEGORY':
+      return {
+        ...state,
+        selectedCategoryId: action.categoryId,
+        selectedModelId: "",
+        models: [],
+      };
+    case 'SET_MODEL':
+      return {
+        ...state,
+        selectedModelId: action.modelId,
+      };
+    case 'SET_PART_NO':
+      return {
+        ...state,
+        partNo: action.partNo,
+      };
+    case 'FETCH_CATEGORIES_START':
+      return {
+        ...state,
+        isLoadingCategories: true,
+      };
+    case 'FETCH_CATEGORIES_SUCCESS':
+      return {
+        ...state,
+        isLoadingCategories: false,
+        categories: action.categories,
+      };
+    case 'FETCH_CATEGORIES_FAILURE':
+      return {
+        ...state,
+        isLoadingCategories: false,
+      };
+    case 'FETCH_MODELS_START':
+      return {
+        ...state,
+        isLoadingModels: true,
+      };
+    case 'FETCH_MODELS_SUCCESS':
+      return {
+        ...state,
+        isLoadingModels: false,
+        models: action.models,
+      };
+    case 'FETCH_MODELS_FAILURE':
+      return {
+        ...state,
+        isLoadingModels: false,
+      };
+    case 'SET_SEARCH_CLICKED':
+      return {
+        ...state,
+        isSearchClicked: action.isClicked,
+      };
+    default:
+      return state;
+  }
+}
+
+const PartsFinder = ({ brands = EMPTY_BRANDS }: PartsFinderProps) => {
   const t = useTranslations("partsFinder");
   const locale = useLocale();
-  const router = useRouter();
+  const { push } = useRouter();
 
-  const [selectedBrandId, setSelectedBrandId] = useState<string>("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
-  const [selectedModelId, setSelectedModelId] = useState<string>("");
-  const [partNo, setPartNo] = useState<string>("");
-
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [models, setModels] = useState<Category[]>([]);
-
-  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(false);
-  const [isLoadingModels, setIsLoadingModels] = useState<boolean>(false);
-  const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(partsFinderReducer, initialState);
+  const {
+    selectedBrandId,
+    selectedCategoryId,
+    selectedModelId,
+    partNo,
+    categories,
+    models,
+    isLoadingCategories,
+    isLoadingModels,
+    isSearchClicked,
+  } = state;
 
   const handleBrandChange = async (brandId: string) => {
-    setSelectedBrandId(brandId);
-    setSelectedCategoryId("");
-    setSelectedModelId("");
-    setCategories([]);
-    setModels([]);
+    dispatch({ type: 'SET_BRAND', brandId });
 
     if (!brandId) return;
 
-    setIsLoadingCategories(true);
+    dispatch({ type: 'FETCH_CATEGORIES_START' });
     try {
       const response = await fetch(`/api/parts-finder?type=categories&brandId=${brandId}&lang=${locale}`);
       if (response.ok) {
         const data = await response.json();
-        setCategories(data.categories || []);
+        dispatch({ type: 'FETCH_CATEGORIES_SUCCESS', categories: data.categories || [] });
       } else {
         console.error("Failed to fetch categories");
+        dispatch({ type: 'FETCH_CATEGORIES_FAILURE' });
       }
     } catch (error) {
       console.error("Error fetching categories:", error);
-    } finally {
-      setIsLoadingCategories(false);
+      dispatch({ type: 'FETCH_CATEGORIES_FAILURE' });
     }
   };
 
   const handleCategoryChange = async (categoryId: string) => {
-    setSelectedCategoryId(categoryId);
-    setSelectedModelId("");
-    setModels([]);
+    dispatch({ type: 'SET_CATEGORY', categoryId });
 
     if (!categoryId || !selectedBrandId) return;
 
-    setIsLoadingModels(true);
+    dispatch({ type: 'FETCH_MODELS_START' });
     try {
       const response = await fetch(`/api/parts-finder?type=models&brandId=${selectedBrandId}&categoryId=${categoryId}&lang=${locale}`);
       if (response.ok) {
         const data = await response.json();
-        setModels(data.models || []);
+        dispatch({ type: 'FETCH_MODELS_SUCCESS', models: data.models || [] });
       } else {
         console.error("Failed to fetch models");
+        dispatch({ type: 'FETCH_MODELS_FAILURE' });
       }
     } catch (error) {
       console.error("Error fetching models:", error);
-    } finally {
-      setIsLoadingModels(false);
+      dispatch({ type: 'FETCH_MODELS_FAILURE' });
     }
   };
 
   const handleSearch = () => {
     if (!selectedCategoryId) return;
 
-    setIsSearchClicked(true);
+    dispatch({ type: 'SET_SEARCH_CLICKED', isClicked: true });
 
     const brand = brands.find(b => b.id.toString() === selectedBrandId);
     const category = categories.find(c => c.id.toString() === selectedCategoryId);
@@ -106,7 +211,7 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
     const fullPath = queryStr ? `${basePath}?${queryStr}` : basePath;
 
     // Navigate to the localized product category page
-    router.push(fullPath as any);
+    push(fullPath as any);
   };
 
   return (
@@ -130,7 +235,7 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
             onValueChange={handleBrandChange}
             value={selectedBrandId}
           >
-            <SelectTrigger icon={<img src="/down.svg" alt="" className="size-3 pointer-events-none" />} aria-label={t("brand")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer">
+            <SelectTrigger icon={<Image src="/down.svg" alt="" width={12} height={12} className="size-3 pointer-events-none" />} aria-label={t("brand")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer">
               <SelectValue placeholder={t("brand")} />
             </SelectTrigger>
             <SelectContent>
@@ -150,7 +255,7 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
             onValueChange={handleCategoryChange}
             disabled={isLoadingCategories || !selectedBrandId}
           >
-            <SelectTrigger icon={<img src="/down.svg" alt="" className="size-3 pointer-events-none" />} aria-label={t("category")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+            <SelectTrigger icon={<Image src="/down.svg" alt="" width={12} height={12} className="size-3 pointer-events-none" />} aria-label={t("category")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
               <SelectValue
                 placeholder={isLoadingCategories ? t("loading") : t("category")}
               />
@@ -163,17 +268,17 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
               ))}
             </SelectContent>
           </Select>
-          {isLoadingCategories && <Loader2 className="absolute right-10 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-white pointer-events-none" />}
+          {isLoadingCategories && <Loader2 className="absolute right-10 top-1/2 -translate-y-1/2 size-4 animate-spin text-white pointer-events-none" />}
         </div>
 
         {/* Select Model */}
         <div className="relative">
           <Select
-            onValueChange={setSelectedModelId}
+            onValueChange={(modelId) => dispatch({ type: 'SET_MODEL', modelId })}
             value={selectedModelId}
             disabled={isLoadingModels || !selectedCategoryId}
           >
-            <SelectTrigger icon={<img src="/down.svg" alt="" className="size-3 pointer-events-none" />} aria-label={t("engineModel")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+            <SelectTrigger icon={<Image src="/down.svg" alt="" width={12} height={12} className="size-3 pointer-events-none" />} aria-label={t("engineModel")} className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white px-3 py-2.5 text-sm [&>span]:text-white [&>span]:data-[placeholder=true]:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
               <SelectValue
                 placeholder={
                   isLoadingModels
@@ -192,14 +297,14 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
               ))}
             </SelectContent>
           </Select>
-          {isLoadingModels && <Loader2 className="absolute right-10 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-white pointer-events-none" />}
+          {isLoadingModels && <Loader2 className="absolute right-10 top-1/2 -translate-y-1/2 size-4 animate-spin text-white pointer-events-none" />}
         </div>
 
         <Input
           placeholder={t("partNo")}
           value={partNo}
           aria-label={t("partNo")}
-          onChange={(e) => setPartNo(e.target.value)}
+          onChange={(e) => dispatch({ type: 'SET_PART_NO', partNo: e.target.value })}
           className="bg-[#1E3A8A4D] backdrop-blur-sm border border-[#93C5FD] rounded-lg w-full hover:bg-white/15 transition text-white placeholder:text-white px-3 py-2.5 text-sm"
         />
       </div>
@@ -214,7 +319,7 @@ const PartsFinder = ({ brands = [] }: PartsFinderProps) => {
       >
         {isSearchClicked ? (
           <span className="flex items-center justify-center gap-2">
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <Loader2 className="size-5 animate-spin" />
             {t("loading")}
           </span>
         ) : (
