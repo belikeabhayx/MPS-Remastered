@@ -15,7 +15,6 @@ const Hero = async () => {
     const t = await getTranslations("home");
     const resolvedLang = await getLocale();
     const brands = await fetchBrands(resolvedLang);
-    const categories = await fetchCategoriesByBrand(resolvedLang)
 
     return (
         <section className='max-w-7xl mx-auto px-4 py-4 lg:py-16 xl:py-10'>
@@ -43,7 +42,7 @@ const Hero = async () => {
                             </h1>
                         </div>
 
-                        <PartsFinder brands={brands} categories={categories}/>
+                        <PartsFinder brands={brands} />
                     </div>
                 </div>
                 {/* Right Cards */}
