@@ -12,11 +12,11 @@ import {
     FileText,
     Headphones
 } from "lucide-react";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link, translateHref } from "@/i18n/routing";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { MenuItem } from "../client-nav-menu";
-import { aboutUsMapping, contactUsMapping, blogsMapping, myAccountMapping } from "@/lib/i18n-utils";
 
 interface Dictionary {
     mobile?: {
@@ -108,13 +108,13 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                 return (
                                     <div key={item.key || index} className="flex flex-col border-b border-gray-100 last:border-none">
                                         <div className="flex items-center justify-between py-3">
-                                            <Link
-                                                href={item.href || "#"}
+                                            <NextLink
+                                                href={item.href ? translateHref(item.href, currentLang) : "#"}
                                                 onClick={onClose}
                                                 className="flex-1 text-[16px] font-medium text-[#0F0F0F]"
                                             >
                                                 {item.name}
-                                            </Link>
+                                            </NextLink>
                                             {hasChildren && (
                                                 <button
                                                     onClick={() => toggleExpand(item.key || item.name)}
@@ -135,14 +135,14 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                                     className="pl-4 overflow-hidden flex flex-col"
                                                 >
                                                     {item.items!.filter((subItem: MenuItem) => subItem.key !== "about-us" && subItem.key !== "contact-us").map((subItem: MenuItem, subIndex: number) => (
-                                                        <Link
+                                                        <NextLink
                                                             key={subItem.key || subIndex}
-                                                            href={subItem.href || "#"}
+                                                            href={subItem.href ? translateHref(subItem.href, currentLang) : "#"}
                                                             onClick={onClose}
                                                             className="py-2 text-[14px] text-gray-600 hover:text-[#2b2f7f]"
                                                         >
                                                             {subItem.name}
-                                                        </Link>
+                                                        </NextLink>
                                                     ))}
                                                 </motion.div>
                                             )}
@@ -159,7 +159,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                             </h3>
                             <div className="flex flex-col">
                                 <Link
-                                    href={myAccountMapping[currentLang] || myAccountMapping.en}
+                                    href="/my-account"
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
@@ -167,7 +167,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     {t?.account || "Account"}
                                 </Link>
                                 <Link
-                                    href={blogsMapping[currentLang] || blogsMapping.en}
+                                    href="/blogs"
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
@@ -175,7 +175,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     {dict?.blogs?.title || "Blogs"}
                                 </Link>
                                 <Link
-                                    href={aboutUsMapping[currentLang] || aboutUsMapping.en}
+                                    href="/about-us"
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
@@ -183,7 +183,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     {t?.aboutUs || "About us"}
                                 </Link>
                                 <Link
-                                    href={contactUsMapping[currentLang] || contactUsMapping.en}
+                                    href="/contact-us"
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >

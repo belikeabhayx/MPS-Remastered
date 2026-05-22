@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, ChevronDown } from "lucide-react";
-import { translateCategoryHref } from "@/i18n/routing";
+import { translateHref } from "@/i18n/routing";
+
 
 
 export type MenuItem = {
@@ -38,7 +39,7 @@ function NavNode({ item, depth, currentLang }: { item: MenuItem; depth: number; 
     >
       {item.href ? (
         <Link
-          href={translateCategoryHref(item.href, currentLang)}
+          href={translateHref(item.href, currentLang)}
           className={`flex items-center gap-1 transition-colors ${depth > 0
             ? "text-gray-700 hover:bg-gray-50 hover:text-[#2b3a8f] w-full block px-4 py-2 text-sm"
             : "hover:text-gray-200 h-full px-2"

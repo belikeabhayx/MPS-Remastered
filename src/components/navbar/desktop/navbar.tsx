@@ -6,7 +6,7 @@ import SearchInput from '../Search-Input'
 import AuthButton from '../Auth-Button'
 import { ShoppingCart } from "lucide-react";
 import MobileNavbar from '../mobile/mobNavbar'
-import NavMenu, { MenuItem } from '../client-nav-menu'
+import NavMenu from '../client-nav-menu'
 import { getLocale, getMessages } from 'next-intl/server'
 import { buildMenuItems, staticMenuStructure } from '@/lib/menu-translations'
 
