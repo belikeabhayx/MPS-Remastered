@@ -76,3 +76,35 @@ export const routing = defineRouting({
 });
 
 export const { Link, redirect, usePathname, useRouter } = createNavigation(routing);
+
+export function translateCategoryHref(href: string, locale: string = 'en'): string {
+  if (!href) return href;
+  
+  if (href.startsWith('/product-category')) {
+    const rest = href.substring('/product-category'.length);
+    const pathnames = routing.pathnames as any;
+    const translations = pathnames?.["/product-category"] || {};
+    const translatedBase = translations[locale] || translations["en"] || "/product-category";
+    const result = `/${locale === 'en' ? '' : locale + '/'}${translatedBase}${rest}`.replace(/\/+/g, '/');
+    return result.endsWith('/') && result.length > 1 ? result.slice(0, -1) : result;
+  }
+  
+  const result = `/${locale === 'en' ? '' : locale + '/'}${href}`.replace(/\/+/g, '/');
+  return result.endsWith('/') && result.length > 1 ? result.slice(0, -1) : result;
+}
+
+export function translateProductHref(href: string, locale: string = 'en'): string {
+  if (!href) return href;
+  
+  if (href.startsWith('/product')) {
+    const rest = href.substring('/product'.length);
+    const pathnames = routing.pathnames as any;
+    const translations = pathnames?.["/product"] || {};
+    const translatedBase = translations[locale] || translations["en"] || "/product";
+    const result = `/${locale === 'en' ? '' : locale + '/'}${translatedBase}${rest}`.replace(/\/+/g, '/');
+    return result.endsWith('/') && result.length > 1 ? result.slice(0, -1) : result;
+  }
+  
+  const result = `/${locale === 'en' ? '' : locale + '/'}${href}`.replace(/\/+/g, '/');
+  return result.endsWith('/') && result.length > 1 ? result.slice(0, -1) : result;
+}
