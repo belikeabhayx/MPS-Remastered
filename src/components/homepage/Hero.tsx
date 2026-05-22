@@ -2,7 +2,8 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import Image from 'next/image'
 import React from 'react'
-import { fetchBrands } from '@/lib/woocommerce/brands';
+import { fetchBrands, fetchCategoriesByBrand } from '@/lib/woocommerce/brands';
+import CategoryCard from './CategoryCard';
 
 const PartsFinder = dynamic(() => import("./PartsFinder"), {
     loading: () => (
@@ -14,6 +15,7 @@ const Hero = async () => {
     const t = await getTranslations("home");
     const resolvedLang = await getLocale();
     const brands = await fetchBrands(resolvedLang);
+    const categories = await fetchCategoriesByBrand(resolvedLang)
 
     return (
         <section className='max-w-7xl mx-auto px-4 py-4 lg:py-16 xl:py-10'>
@@ -41,11 +43,41 @@ const Hero = async () => {
                             </h1>
                         </div>
 
-                       <PartsFinder brands={brands} />
+                        <PartsFinder brands={brands} categories={categories}/>
                     </div>
                 </div>
-                {/* right card */}
-                <div className="flex flex-col gap-[14px] w-full lg:flex-2 xl:flex-none xl:w-[486px]"></div>
+                {/* Right Cards */}
+                <div className="flex flex-col gap-[14px] w-full lg:flex-2 xl:flex-none xl:w-[486px]">
+                    <div className="flex flex-row gap-3 w-full">
+                        <div className="flex-1 min-w-0">
+                            <CategoryCard
+                                title={t("hero.engineParts")}
+                                description={t("hero.enginePartsDesc")}
+                                href={{ pathname: "/product-category/[slug]", params: { slug: "engine-parts" } }}
+                                shopNowText={t("hero.shopNow")}
+                                lang={resolvedLang}
+                            />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                            <CategoryCard
+                                title={t("hero.serviceParts")}
+                                description={t("hero.servicePartsDesc")}
+                                href={{ pathname: "/product-category/[slug]", params: { slug: "engine-service-parts" } }}
+                                shopNowText={t("hero.shopNow")}
+                                lang={resolvedLang}
+                            />
+                        </div>
+                    </div>
+
+                    <CategoryCard
+                        title={t("hero.engine")}
+                        large
+                        href={{ pathname: "/product-category/[slug]", params: { slug: "engines" } }}
+                        shopNowText={t("hero.shopNow")}
+                        lang={resolvedLang}
+                    />
+                </div>
             </div>
         </section>
     )

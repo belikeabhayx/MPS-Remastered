@@ -1,8 +1,10 @@
-export const WP_API_URL = `${process.env.NEXT_PUBLIC_WOOCOMMERCE_URL}/wp-json/wp/v2/posts`;
-export const WC_STORE_URL = `${process.env.NEXT_PUBLIC_WOOCOMMERCE_URL}/wp-json/wc/store/products`;
+const WOOCOMMERCE_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || process.env.WOOCOMMERCE_URL || '';
+
+export const WP_API_URL = `${WOOCOMMERCE_URL}/wp-json/wp/v2/posts`;
+export const WC_STORE_URL = `${WOOCOMMERCE_URL}/wp-json/wc/store/products`;
 
 // WooCommerce REST API v3 — supports wpml_language for server-side WPML filtering
-export const WC_API_BASE = `${process.env.NEXT_PUBLIC_WOOCOMMERCE_URL}/wp-json/wc/v3`;
+export const WC_API_BASE = `${WOOCOMMERCE_URL}/wp-json/wc/v3`;
 
 /**
  * Returns a Base64-encoded Basic Auth header from the WooCommerce consumer credentials.

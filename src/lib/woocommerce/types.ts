@@ -51,3 +51,25 @@ export interface Category {
         alt: string;
     } | null;
 }
+
+export interface WcV3Product {
+    id: number;
+    name: string;
+    slug: string;
+    categories: Array<{ id: number; name: string; slug: string; link: string }>;
+    brands?: Array<{ id: number; name: string; slug: string; link?: string }>;
+    attributes: Array<{
+        id: number;
+        name: string;
+        slug: string;
+        options: string[];
+        option_ids?: number[];
+    }>;
+}
+
+export interface AttributeTerm {
+    id: number;
+    name: string;
+    slug: string;
+    count: number;
+}
