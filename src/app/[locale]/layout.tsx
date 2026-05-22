@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Navbar from "@/components/navbar/navbar";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -78,7 +79,7 @@ export default async function RootLayout({
         className={`${inter.variable} ${notoSerif.variable} ${satoshi.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <LanguageSwitcher />
+          <Navbar />
           {children}
         </NextIntlClientProvider>
       </body>
