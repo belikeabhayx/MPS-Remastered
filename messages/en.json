@@ -125,5 +125,18 @@
   },
   "upperStrip": {
     "freeShipping": "Free shipping on orders over €1000"
+  },
+  "partsFinder": {
+    "findPartsQuickly": "Find parts quickly",
+    "partsFinder": "Parts Finder",
+    "findTheRightPart": "Find the right part",
+    "brand": "Brand",
+    "category": "Part",
+    "engineModel": "Engine / model",
+    "partGroup": "Part group",
+    "partNo": "Part no. (optional)",
+    "searchParts": "Search Parts",
+    "loading": "Loading...",
+    "unsure": "Unsure? Send us a photo of your engine plate – we will help you."
   }
 }

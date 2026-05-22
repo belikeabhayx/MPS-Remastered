@@ -25,3 +25,29 @@ export interface BlogPost {
         protected?: boolean;
     };
 }
+
+export interface Brand {
+    id: number;
+    name: string;
+    slug: string;
+    count: number;
+    description?: string;
+    link?: string;
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    count: number;
+    parent: number;
+    description?: string;
+    extra_category_description?: string;
+    link?: string;
+    image?: {
+        id: number;
+        src: string;
+        name: string;
+        alt: string;
+    } | null;
+}

@@ -1,12 +1,11 @@
 import BrowseCategories from "@/components/homepage/BrowseCategories";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-
+import Hero from "@/components/homepage/Hero";
 
 const page = () => {
   return (
     <div>
-  
-      <BrowseCategories/>
+      <Hero />
+      <BrowseCategories />
     </div>
   );
 };
