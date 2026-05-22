@@ -73,3 +73,70 @@ export interface AttributeTerm {
     slug: string;
     count: number;
 }
+
+export interface ProductResult {
+    id: string;
+    title: string;
+    price: number;
+    originalPrice?: number;
+    image: string;
+    images?: string[];
+    condition: 'New' | 'Used';
+    isOnSale: boolean;
+    salePercentage?: number;
+    availability: string;
+    allowsBackorder: boolean;
+    physicalStockCount: number | null;
+    description?: string;
+    shortDescription?: string;
+    sku?: string;
+    stockStatus?: string;
+    stockQuantity?: number | null;
+    slug: string;
+    attributes?: Array<{
+        id: number;
+        name: string;
+        taxonomy: string;
+        terms: Array<{
+            id: number;
+            name: string;
+            slug: string;
+        }>;
+    }>;
+    brands?: Array<{
+        id: number;
+        name: string;
+        slug: string;
+        link: string;
+    }>;
+    categories?: Array<{
+        id: number;
+        name: string;
+        slug: string;
+        link: string;
+    }>;
+    averageRating: number;
+    reviewCount: number;
+    type?: string;
+    variations?: Array<{
+        id: number;
+        price: number;
+        originalPrice?: number;
+        isOnSale: boolean;
+        stockStatus: string;
+        stockQuantity: number | null;
+        attributes: Array<{
+            id: number;
+            name: string;
+            slug: string;
+            option: string;
+        }>;
+        image?: string;
+    }>;
+}
+
+export interface ProductResponse {
+    products: ProductResult[];
+    total: number;
+    totalPages: number;
+}

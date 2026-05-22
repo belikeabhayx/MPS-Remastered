@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react';
 import Image from "next/image";
-import type { ReviewResult } from '@/lib/api/reviews';
+import type { ReviewResult } from '@/lib/woocommerce/reviews';
 import type SwiperType from 'swiper';
 
 // Dynamically import Swiper to reduce initial bundle
