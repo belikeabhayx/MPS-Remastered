@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import InventoryClient from "./inventory-client";
 
 const DEFAULT_VALUES = [
@@ -27,30 +28,23 @@ const DEFAULT_VALUES = [
   },
 ];
 
-interface InventoryProps {
-  dict?: {
-    home?: {
-      inventory?: {
-        values?: string;
-        titles?: string[];
-        descriptions?: string[];
-      };
-    };
-  };
-}
+export default async function Inventory() {
+  const t = await getTranslations("home");
+  
+  const titles = t.raw("inventory.titles") as string[];
+  const descriptions = t.raw("inventory.descriptions") as string[];
+  const valuesLabel = t("inventory.values") || "Our Values";
 
-export default async function Inventory({ dict, lang }: InventoryProps & { lang?: string }) {
-  // Use dictionary titles/descriptions if available, otherwise fallback to DEFAULT_VALUES
   const values = DEFAULT_VALUES.map((item, index) => ({
     ...item,
-    title: dict?.home?.inventory?.titles?.[index] || item.title,
-    description: dict?.home?.inventory?.descriptions?.[index] || item.description,
+    title: titles?.[index] || item.title,
+    description: descriptions?.[index] || item.description,
   }));
 
   return (
     <section className="bg-white max-w-7xl mx-auto mb-0 lg:mb-30 xl:mb-36">
       <div className="flex flex-col lg:flex-row w-full mx-auto lg:items-center lg:gap-8">
-        <InventoryClient values={values} dict={dict} />
+        <InventoryClient values={values} valuesLabel={valuesLabel} />
       </div>
     </section>
   );

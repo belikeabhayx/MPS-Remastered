@@ -11,23 +11,15 @@ interface ValueItem {
 }
 
 interface InventoryClientProps {
-  values: (ValueItem & { id: string })[];
-  dict?: {
-    home?: {
-      inventory?: {
-        values?: string;
-        titles?: string[];
-        descriptions?: string[];
-      };
-    };
-  };
+  values: ValueItem[];
+  valuesLabel: string;
 }
 
-export default function InventoryClient({ values, dict }: InventoryClientProps) {
+export default function InventoryClient({ values, valuesLabel }: InventoryClientProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const currentTitle = dict?.home?.inventory?.titles?.[activeIndex] || values[activeIndex]?.title;
-  const currentDescription = dict?.home?.inventory?.descriptions?.[activeIndex] || values[activeIndex]?.description;
+  const currentTitle = values[activeIndex]?.title;
+  const currentDescription = values[activeIndex]?.description;
 
   return (
     <div className="flex flex-col lg:flex-row w-full mx-auto lg:items-center lg:gap-16 p-4 xl:p-0">
@@ -45,7 +37,7 @@ export default function InventoryClient({ values, dict }: InventoryClientProps) 
 
         <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 py-16">
           <span className="text-md font-bold tracking-[0.2em] text-white uppercase mb-8 md:mb-12 font-satoshi">
-            {dict?.home?.inventory?.values || "Our Values"}
+            {valuesLabel}
           </span>
           <div className="flex flex-col gap-6 md:gap-8">
             {values.map((item, index) => (
@@ -62,7 +54,7 @@ export default function InventoryClient({ values, dict }: InventoryClientProps) 
                       : "text-[24px] text-white/30 group-hover:text-white/50",
                   )}
                 >
-                  {dict?.home?.inventory?.titles?.[index] || item.title}
+                  {item.title}
                 </h2>
               </div>
             ))}

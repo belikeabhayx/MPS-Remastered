@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import type SwiperType from 'swiper';
+import { useTranslations } from 'next-intl';
 
 // Dynamically import Swiper to reduce initial bundle
 const loadSwiper = async () => {
@@ -21,10 +22,10 @@ export interface BlogPostCarouselItem {
 
 interface BlogCarouselProps {
     initialPosts: BlogPostCarouselItem[];
-    dict?: any;
 }
 
-const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts, dict }) => {
+const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
+    const t = useTranslations("home");
     const swiperRef = useRef<HTMLDivElement>(null);
     const sliderTrackRef = useRef<HTMLDivElement>(null);
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
@@ -134,7 +135,7 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts, dict }) => {
             <div className="max-w-7xl mx-auto pb-16">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h2 className="text-[24px] md:text-[64px] font-serif text-[#000000]">{dict?.home?.latestNews || "Blogs"}</h2>
+                    <h2 className="text-[24px] md:text-[64px] font-serif text-[#000000]">{t("latestNews")}</h2>
                 </div>
 
                 {loading ? (

@@ -284,7 +284,7 @@ const PartsFinder = ({ brands = EMPTY_BRANDS }: PartsFinderProps) => {
                   isLoadingModels
                     ? t("loading")
                     : models.length === 0 && selectedCategoryId
-                      ? "No models found"
+                      ? t("noModelsFound")
                       : t("engineModel")
                 }
               />

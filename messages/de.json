@@ -126,5 +126,19 @@
     },
     "upperStrip": {
         "freeShipping": "Kostenloser Versand ab 1000 €"
+    },
+    "partsFinder": {
+        "findPartsQuickly": "Teile schnell finden",
+        "partsFinder": "Teile-Finder",
+        "findTheRightPart": "Finden Sie das richtige Teil",
+        "brand": "Marke",
+        "category": "Teil",
+        "engineModel": "Motor / Modell",
+        "partGroup": "Teilegruppe",
+        "partNo": "Teilenummer (optional)",
+        "searchParts": "Teile suchen",
+        "loading": "Laden...",
+        "unsure": "Unsicher? Schicken Sie uns ein Foto Ihres Motorenschildes – wir helfen Ihnen.",
+        "noModelsFound": "Keine Modelle gefunden"
     }
 }

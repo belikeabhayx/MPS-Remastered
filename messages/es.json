@@ -126,5 +126,19 @@
     },
     "upperStrip": {
         "freeShipping": "Envío gratis en pedidos superiores a €1000"
+    },
+    "partsFinder": {
+        "findPartsQuickly": "Encuentre piezas rápidamente",
+        "partsFinder": "Buscador de piezas",
+        "findTheRightPart": "Encuentre la pieza correcta",
+        "brand": "Marca",
+        "category": "Pieza",
+        "engineModel": "Motor / modelo",
+        "partGroup": "Grupo de piezas",
+        "partNo": "Nº de pieza (opcional)",
+        "searchParts": "Buscar piezas",
+        "loading": "Cargando...",
+        "unsure": "¿No está seguro? Envíenos una foto de la placa de su motor – le ayudaremos.",
+        "noModelsFound": "No se encontraron modelos"
     }
 }

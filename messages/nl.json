@@ -126,5 +126,19 @@
     },
      "upperStrip": {
         "freeShipping": "Gratis verzending voor bestellingen boven €1000"
+    },
+    "partsFinder": {
+        "findPartsQuickly": "Snel onderdelen vinden",
+        "partsFinder": "Onderdelenzoeker",
+        "findTheRightPart": "Vind het juiste onderdeel",
+        "brand": "Merk",
+        "category": "Onderdeel",
+        "engineModel": "Motor / model",
+        "partGroup": "Onderdelengroep",
+        "partNo": "Onderdeel nr. (optioneel)",
+        "searchParts": "Onderdelen zoeken",
+        "loading": "Laden...",
+        "unsure": "Onzeker? Stuur ons een foto van uw motorplaatje – wij helpen u.",
+        "noModelsFound": "Geen modellen gevonden"
     }
 }
