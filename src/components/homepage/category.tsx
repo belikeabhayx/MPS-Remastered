@@ -3,13 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
+import { categoryHref } from '@/i18n/routing'
 import Image from 'next/image'
 import Swiper from 'swiper';
 import { FreeMode } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
-import { translateCategoryHref } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
 
 export interface CategoryData {
@@ -21,10 +21,9 @@ export interface CategoryData {
     isFeatured?: boolean;
 }
 
-const PopularCategories = ({ data, lang: propLang }: { data?: CategoryData[], lang?: string }) => {
+const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
     const t = useTranslations("home");
-    const localeLang = useLocale();
-    const lang = propLang || localeLang;
+    const locale = useLocale();
 
     const swiperRef = useRef<HTMLDivElement>(null);
     const sliderTrackRef = useRef<HTMLDivElement>(null);
@@ -38,21 +37,21 @@ const PopularCategories = ({ data, lang: propLang }: { data?: CategoryData[], la
             title: t("hero.serviceParts"),
             desc: t("hero.servicePartsDesc"),
             image: "/category/oil.png",
-            href: translateCategoryHref("/product-category/engine-service-parts", lang)
+            href: '/product-category/engine-service-parts'
         },
         {
             id: 2,
             title: t("hero.engineCooling"),
             desc: t("hero.engineCoolingDesc"),
             image: "/category/oil.png",
-            href: translateCategoryHref("/product-category/engine-parts/cooling-systems", lang)
+            href: '/product-category/engine-parts/cooling-systems'
         },
         {
             id: 3,
             title: t("hero.electrical"),
             desc: t("hero.electricalDesc"),
             image: "/category/oil.png",
-            href: translateCategoryHref("/product-category/engine-parts/electrical-systems", lang)
+            href: '/product-category/engine-parts/electrical-systems'
         }
     ];
 
@@ -155,7 +154,7 @@ const PopularCategories = ({ data, lang: propLang }: { data?: CategoryData[], la
                                     <p className="text-slate-500 text-[9.64px] md:text-sm mb-4 font-satoshi line-clamp-3">
                                         {t("hero.enginePartsDesc")}
                                     </p>
-                                    <Link href={translateCategoryHref("/product-category/engine-parts", lang)} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
+                                    <Link href={categoryHref('/product-category/engine-parts', locale)} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
                                         {t("hero.shopNow")} <ArrowRight className="ml-1 w-4 h-4" />
                                     </Link>
                                 </div>
@@ -184,7 +183,7 @@ const PopularCategories = ({ data, lang: propLang }: { data?: CategoryData[], la
                                         <p className="text-slate-500 text-[9.64px] md:text-sm mb-4 font-satoshi line-clamp-3">
                                             {item.desc}
                                         </p>
-                                        <Link href={item.href} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
+                                        <Link href={categoryHref(item.href, locale)} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
                                             {t("hero.shopNow")} <ArrowRight className="ml-1 w-4 h-4" />
                                         </Link>
                                     </div>
@@ -211,7 +210,7 @@ const PopularCategories = ({ data, lang: propLang }: { data?: CategoryData[], la
                                     {t("browse.title")}
                                 </h3>
                                 <Button asChild className="bg-[#3b4b8c] hover:bg-[#2d3a6e] text-white rounded-md px-6 py-2 h-auto text-sm font-medium">
-                                    <Link href={translateCategoryHref("/category", lang)}>
+                                    <Link href="/product-category">
                                         {t("browse.button")} <ArrowRight className="ml-2 w-4 h-4" />
                                     </Link>
                                 </Button>

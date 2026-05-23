@@ -140,5 +140,16 @@
         "loading": "Laden...",
         "unsure": "Unsicher? Schicken Sie uns ein Foto Ihres Motorenschildes – wir helfen Ihnen.",
         "noModelsFound": "Keine Modelle gefunden"
+    },
+    "nav": {
+        "searchPlaceholder": "Produkte suchen"
+    },
+    "mobile": {
+        "searchProducts": "Ihre Produkte suchen",
+        "helpInfo": "HILFE & INFO",
+        "account": "Konto",
+        "blogs": "Blogs",
+        "aboutUs": "�ber uns",
+        "contactUs": "Kontaktieren Sie uns"
     }
 }

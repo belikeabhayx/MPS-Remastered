@@ -1,8 +1,9 @@
 'use client'
 import { useState } from "react";
-import Link from "next/link";
+import { useLocale } from "next-intl";
+import { Link, categoryHref } from "@/i18n/routing";
 import { ChevronRight, ChevronDown } from "lucide-react";
-import { translateHref } from "@/i18n/routing";
+import { buildMenuItems, staticMenuStructure } from "@/lib/menu-translations";
 
 
 
@@ -13,13 +14,15 @@ export type MenuItem = {
   items?: MenuItem[];
 };
 
-export default function NavMenu({ currentLang = 'en', items }: { currentLang?: string; items: MenuItem[] }) {
+export default function NavMenu() {
+  const locale = useLocale();
+  const items = buildMenuItems(staticMenuStructure, locale);
   return (
     <nav className="hidden xl:block bg-[#2b3a8f] h-[50px]">
       <div className="mx-auto max-w-7xl px-7 h-full flex items-center">
         <ul className="flex items-center gap-3 text-white text-sm font-medium z-50">
           {items.map((menu) => (
-            <NavNode key={menu.key ?? menu.name} item={menu} depth={0} currentLang={currentLang} />
+            <NavNode key={menu.key ?? menu.name} item={menu} depth={0} />
           ))}
         </ul>
       </div>
@@ -27,8 +30,9 @@ export default function NavMenu({ currentLang = 'en', items }: { currentLang?: s
   );
 }
 
-function NavNode({ item, depth, currentLang }: { item: MenuItem; depth: number; currentLang: string }) {
+function NavNode({ item, depth }: { item: MenuItem; depth: number }) {
   const [isOpen, setIsOpen] = useState(false);
+  const locale = useLocale();
   const hasChildren = item.items && item.items.length > 0;
 
   return (
@@ -39,7 +43,7 @@ function NavNode({ item, depth, currentLang }: { item: MenuItem; depth: number; 
     >
       {item.href ? (
         <Link
-          href={translateHref(item.href, currentLang)}
+          href={item.href.startsWith('/product-category') ? categoryHref(item.href, locale) : (item.href as any)}
           className={`flex items-center gap-1 transition-colors ${depth > 0
             ? "text-gray-700 hover:bg-gray-50 hover:text-[#2b3a8f] w-full block px-4 py-2 text-sm"
             : "hover:text-gray-200 h-full px-2"
@@ -79,7 +83,7 @@ function NavNode({ item, depth, currentLang }: { item: MenuItem; depth: number; 
           style={{ marginTop: depth === 0 ? '0' : '-1px' }}
         >
           {isOpen && item.items!.map((subItem) => (
-            <NavNode key={subItem.key ?? subItem.name} item={subItem} depth={depth + 1} currentLang={currentLang} />
+            <NavNode key={subItem.key ?? subItem.name} item={subItem} depth={depth + 1} />
           ))}
         </ul>
       )}

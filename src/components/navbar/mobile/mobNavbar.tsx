@@ -8,12 +8,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 const MobileSidebar = dynamic(() => import("./MobileSidebar"), { ssr: false });
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { MenuItem } from "../client-nav-menu";
 
 
 interface MobileNavbarProps {
-    items?: MenuItem[];
-    currentLang?: string;
     dict?: {
         nav?: {
             searchPlaceholder?: string;
@@ -21,7 +18,7 @@ interface MobileNavbarProps {
     };
 }
 
-const MobileNavbar = ({ items, currentLang = 'en', dict }: MobileNavbarProps) => {
+const MobileNavbar = ({ dict }: MobileNavbarProps) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -80,7 +77,7 @@ const MobileNavbar = ({ items, currentLang = 'en', dict }: MobileNavbarProps) =>
                 </form>
             </div>
 
-            <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} items={items} currentLang={currentLang} />
+            <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
         </div>
     );
 };

@@ -140,5 +140,16 @@
         "loading": "Laden...",
         "unsure": "Onzeker? Stuur ons een foto van uw motorplaatje – wij helpen u.",
         "noModelsFound": "Geen modellen gevonden"
-    }
+    },
+  "nav": {
+    "searchPlaceholder": "Zoek producten"
+  },
+  "mobile": {
+    "searchProducts": "Zoek uw producten",
+    "helpInfo": "HULP & INFO",
+    "account": "Account",
+    "blogs": "Blogs",
+    "aboutUs": "Over ons",
+    "contactUs": "Neem contact op"
+  }
 }

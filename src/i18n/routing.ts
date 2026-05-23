@@ -32,6 +32,12 @@ export const routing = defineRouting({
       de: "/produkt-kategorie/[slug]",
       nl: "/product-categorie/[slug]",
     },
+    "/product-category/[...slug]": {
+      en: "/product-category/[...slug]",
+      es: "/categoria-producto/[...slug]",
+      de: "/produkt-kategorie/[...slug]",
+      nl: "/product-categorie/[...slug]",
+    },
     "/about-us": {
       en: "/about-us",
       de: "/ueber-uns",
@@ -127,130 +133,44 @@ export const routing = defineRouting({
 
 export const { Link, redirect, usePathname, useRouter } = createNavigation(routing);
 
-export async function getDictionary(locale: string) {
-    try {
-        const dict = await import(`../../messages/${locale}.json`);
-        return dict.default || dict;
-    } catch (error) {
-        // Fallback to English if locale file not found
-        const dict = await import(`../../messages/en.json`);
-        return dict.default || dict;
-    }
+/**
+ * Converts an English canonical /product-category/... path into a
+ * next-intl typed href object. The Link from this routing module
+ * automatically translates the path prefix per locale.
+ * Pass `locale` to also translate the slug content via categorySlugMap.
+ *
+ * Usage: <Link href={categoryHref('/product-category/engine-parts/cooling-systems', locale)} />
+ */
+export function categoryHref(enPath: string, locale: string = 'en') {
+  const withoutPrefix = enPath.replace(/^\/product-category\/?/, '');
+  const segments = withoutPrefix.split('/').filter(Boolean);
+  const localised = segments.map(seg => translateCategorySlug(seg, locale));
+
+  if (localised.length === 0) {
+    return { pathname: '/product-category' } as const;
+  }
+  if (localised.length === 1) {
+    return {
+      pathname: '/product-category/[slug]' as const,
+      params: { slug: localised[0] },
+    };
+  }
+  return {
+    pathname: '/product-category/[...slug]' as const,
+    params: { slug: localised },
+  };
 }
 
-export const productCategoryMapping: Record<string, string> = {
-    en: '/product-category',
-    nl: '/nl/product-categorie',
-    de: '/de/produkt-kategorie',
-    es: '/es/categoria-producto',
-};
-
-export const productMapping: Record<string, string> = {
-    en: '/product',
-    nl: '/nl/product',
-    de: '/de/produkt',
-    es: '/es/producto',
-};
-
-export function translateCategoryHref(href: string, lang: string = 'en'): string {
-    if (!href.startsWith('/product-category') && !href.startsWith('/en/product-category') && !href.startsWith('/nl/product-categorie') && !href.startsWith('/de/produkt-kategorie') && !href.startsWith('/es/categoria-producto')) {
-        return href;
-    }
-
-    let slugPath = href;
-    // Include /en/product-category since the app uses /en/ locale prefix for English
-    const prefixes = ['/en/product-category', ...Object.values(productCategoryMapping)].sort((a, b) => b.length - a.length);
-    for (const prefix of prefixes) {
-        if (href.startsWith(prefix)) {
-            slugPath = href.substring(prefix.length);
-            break;
-        }
-    }
-
-    let segments = slugPath.split('/').filter(Boolean);
-
-    const typecastMap = categorySlugMap as any;
-    const translatedSegments = segments.map(segment => {
-        // 1. Find the English key for this segment
-        let enKey = segment;
-        if (typecastMap.to_en && typecastMap.to_en[segment]) {
-            enKey = typecastMap.to_en[segment];
-        }
-
-        // 2. Translate English key to target language
-        if (lang === 'en') {
-            return enKey;
-        } else if (typecastMap.en_to && typecastMap.en_to[lang] && typecastMap.en_to[lang][enKey]) {
-            return typecastMap.en_to[lang][enKey];
-        }
-
-        return enKey;
-    });
-
-    const newPrefix = productCategoryMapping[lang] || productCategoryMapping.en;
-    const newSlug = translatedSegments.length > 0 ? '/' + translatedSegments.join('/') : '';
-
-    const trailingSlash = href.endsWith('/') && newSlug !== '' ? '/' : '';
-    return `${newPrefix}${newSlug}${trailingSlash}`;
+/**
+ * Translates a single English category slug segment to the target locale
+ * using the categorySlugMap. Use this only when you need a localised slug
+ * in the URL for SEO. For navigation, categoryHref() + Link is sufficient.
+ */
+export function translateCategorySlug(enSlug: string, lang: string): string {
+  if (lang === 'en') return enSlug;
+  const map = categorySlugMap as any;
+  return map.en_to?.[lang]?.[enSlug] ?? enSlug;
 }
 
-// All product URL prefixes including locale-prefixed English
-const allProductPrefixes = [
-    '/en/product',
-    '/nl/product',
-    '/de/produkt',
-    '/es/producto',
-    '/product',
-];
 
-export function translateProductHref(href: string, lang: string = 'en'): string {
-    const matchesProduct = allProductPrefixes.some(p => href.startsWith(p));
-    if (!matchesProduct) return href;
-
-    let slug = href;
-    // Sort by length descending so longer prefixes match first (e.g. /en/product before /product)
-    const prefixes = allProductPrefixes.slice().sort((a, b) => b.length - a.length);
-    for (const prefix of prefixes) {
-        if (href.startsWith(prefix)) {
-            slug = href.substring(prefix.length);
-            break;
-        }
-    }
-
-    const newPrefix = productMapping[lang] || productMapping.en;
-    if (!slug.startsWith('/') && slug.length > 0) {
-        slug = '/' + slug;
-    }
-    return `${newPrefix}${slug}`;
-}
-
-export function translateHref(href: string, lang: string = 'en'): string {
-    // 1. Root / Home
-    if (href === '/') {
-        return lang === 'en' ? '/' : `/${lang}`;
-    }
-
-    // 2. Product Category
-    if (href.startsWith('/product-category') || href.startsWith('/en/product-category') || href.startsWith('/nl/product-categorie') || href.startsWith('/de/produkt-kategorie') || href.startsWith('/es/categoria-producto')) {
-        return translateCategoryHref(href, lang);
-    }
-
-    // 3. Product
-    if (allProductPrefixes.some(p => href.startsWith(p))) {
-        return translateProductHref(href, lang);
-    }
-
-    // 4. Static Pathnames listed in routing.pathnames
-    const pathnames = routing.pathnames as Record<string, Record<string, string>>;
-    if (pathnames[href]) {
-        const localizedPath = pathnames[href][lang];
-        if (localizedPath) {
-            const prefix = lang === 'en' ? '' : `/${lang}`;
-            return `${prefix}${localizedPath}`;
-        }
-    }
-
-    // Fallback
-    return href;
-}
 

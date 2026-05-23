@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server';
+import { translateCategorySlug } from '@/i18n/routing';
 import dynamic from 'next/dynamic';
 import Image from 'next/image'
 import { fetchBrands } from '@/lib/woocommerce/brands';
@@ -53,7 +54,7 @@ const Hero = async () => {
                             <CategoryCard
                                 title={t("hero.engineParts")}
                                 description={t("hero.enginePartsDesc")}
-                                href={{ pathname: "/product-category/[slug]", params: { slug: "engine-parts" } }}
+                                href={{ pathname: "/product-category/[slug]", params: { slug: translateCategorySlug("engine-parts", resolvedLang) } }}
                                 shopNowText={t("hero.shopNow")}
                                 lang={resolvedLang}
                             />
@@ -63,7 +64,7 @@ const Hero = async () => {
                             <CategoryCard
                                 title={t("hero.serviceParts")}
                                 description={t("hero.servicePartsDesc")}
-                                href={{ pathname: "/product-category/[slug]", params: { slug: "engine-service-parts" } }}
+                                href={{ pathname: "/product-category/[slug]", params: { slug: translateCategorySlug("engine-service-parts", resolvedLang) } }}
                                 shopNowText={t("hero.shopNow")}
                                 lang={resolvedLang}
                             />
@@ -73,7 +74,7 @@ const Hero = async () => {
                     <CategoryCard
                         title={t("hero.engine")}
                         large
-                        href={{ pathname: "/product-category/[slug]", params: { slug: "engines" } }}
+                        href={{ pathname: "/product-category/[slug]", params: { slug: translateCategorySlug("engines", resolvedLang) } }}
                         shopNowText={t("hero.shopNow")}
                         lang={resolvedLang}
                     />

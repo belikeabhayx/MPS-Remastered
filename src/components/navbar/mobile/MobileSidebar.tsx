@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     User,
     Search,
-    Box,
-    LayoutGrid,
     ChevronRight,
     BookOpen,
     HelpCircle,
     FileText,
     Headphones
 } from "lucide-react";
-import NextLink from "next/link";
-import { Link, translateHref } from "@/i18n/routing";
+import { Link, categoryHref } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { buildMenuItems, staticMenuStructure } from "@/lib/menu-translations";
 import { MenuItem } from "../client-nav-menu";
 
 interface Dictionary {
@@ -38,15 +36,13 @@ interface Dictionary {
 interface MobileSidebarProps {
     isOpen: boolean;
     onClose: () => void;
-    items?: MenuItem[];
-    currentLang?: string;
 }
 
-const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: MobileSidebarProps) => {
+const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
+    const locale = useLocale();
+    const t = useTranslations();
+    const items = buildMenuItems(staticMenuStructure, locale);
     const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
-    const [dict, setDict] = useState<Dictionary>({});
-
-    const t = dict?.mobile;
 
     const toggleExpand = (key: string) => {
         setExpandedKeys(prev => ({
@@ -93,7 +89,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                                 <input
                                     type="text"
-                                    placeholder={t?.searchProducts || "Search your products"}
+                                placeholder={t("mobile.searchProducts")}
                                     className="w-full bg-[#FAFAFC] border border-[#F1F1F5] rounded-lg pl-10 pr-4 py-2.5 text-sm outline-none placeholder:text-gray-400 focus:border-blue-300"
                                 />
                             </div>
@@ -108,13 +104,17 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                 return (
                                     <div key={item.key || index} className="flex flex-col border-b border-gray-100 last:border-none">
                                         <div className="flex items-center justify-between py-3">
-                                            <NextLink
-                                                href={item.href ? translateHref(item.href, currentLang) : "#"}
+                                        <Link
+                                                href={item.href
+                                                    ? item.href.startsWith('/product-category')
+                                                        ? categoryHref(item.href, locale)
+                                                        : (item.href as any)
+                                                    : "/"}
                                                 onClick={onClose}
                                                 className="flex-1 text-[16px] font-medium text-[#0F0F0F]"
                                             >
                                                 {item.name}
-                                            </NextLink>
+                                            </Link>
                                             {hasChildren && (
                                                 <button
                                                     onClick={() => toggleExpand(item.key || item.name)}
@@ -135,14 +135,18 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                                     className="pl-4 overflow-hidden flex flex-col"
                                                 >
                                                     {item.items!.filter((subItem: MenuItem) => subItem.key !== "about-us" && subItem.key !== "contact-us").map((subItem: MenuItem, subIndex: number) => (
-                                                        <NextLink
+                                                        <Link
                                                             key={subItem.key || subIndex}
-                                                            href={subItem.href ? translateHref(subItem.href, currentLang) : "#"}
+                                                            href={subItem.href
+                                                                ? subItem.href.startsWith('/product-category')
+                                                                    ? categoryHref(subItem.href, locale)
+                                                                    : (subItem.href as any)
+                                                                : "/"}
                                                             onClick={onClose}
                                                             className="py-2 text-[14px] text-gray-600 hover:text-[#2b2f7f]"
                                                         >
                                                             {subItem.name}
-                                                        </NextLink>
+                                                        </Link>
                                                     ))}
                                                 </motion.div>
                                             )}
@@ -155,7 +159,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                         {/* Help & Info Section */}
                         <div className="px-5 mt-8">
                             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                                {t?.helpInfo || "HELP & INFO"}
+                                {t("mobile.helpInfo")}
                             </h3>
                             <div className="flex flex-col">
                                 <Link
@@ -164,7 +168,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
                                     <User className="w-5 h-5" />
-                                    {t?.account || "Account"}
+                                    {t("mobile.account")}
                                 </Link>
                                 <Link
                                     href="/blogs"
@@ -172,7 +176,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
                                     <FileText className="w-5 h-5" />
-                                    {dict?.blogs?.title || "Blogs"}
+                                    {t("mobile.blogs")}
                                 </Link>
                                 <Link
                                     href="/about-us"
@@ -180,7 +184,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
                                     <BookOpen className="w-5 h-5" />
-                                    {t?.aboutUs || "About us"}
+                                    {t("mobile.aboutUs")}
                                 </Link>
                                 <Link
                                     href="/contact-us"
@@ -188,7 +192,7 @@ const MobileSidebar = ({ isOpen, onClose, items = [], currentLang = 'en' }: Mobi
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
                                     <HelpCircle className="w-5 h-5" />
-                                    {t?.contactUs || "Contact us"}
+                                    {t("mobile.contactUs")}
                                 </Link>
 
                                 {/* <Link

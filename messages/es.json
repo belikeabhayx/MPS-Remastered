@@ -140,5 +140,16 @@
         "loading": "Cargando...",
         "unsure": "¿No está seguro? Envíenos una foto de la placa de su motor – le ayudaremos.",
         "noModelsFound": "No se encontraron modelos"
+    },
+    "nav": {
+        "searchPlaceholder": "Buscar productos"
+    },
+    "mobile": {
+        "searchProducts": "Busca tus productos",
+        "helpInfo": "AYUDA E INFO",
+        "account": "Cuenta",
+        "blogs": "Blogs",
+        "aboutUs": "Sobre nosotros",
+        "contactUs": "Cont�ctenos"
     }
 }
