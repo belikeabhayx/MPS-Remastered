@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from "next/image";
 import type { ReviewResult } from '@/lib/woocommerce/reviews';
 import type SwiperType from 'swiper';
@@ -18,10 +18,24 @@ interface Props {
     dict?: any;
 }
 
+const Stars = ({ rating }: { rating: number }) => (
+    <div className="flex gap-1">
+        {[...Array(5)].map((_, index) => (
+            <svg
+                key={index}
+                className={`size-6 ${index < rating ? 'text-blue-600 fill-current' : 'text-gray-300 fill-current'}`}
+                viewBox="0 0 20 20"
+            >
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+            </svg>
+        ))}
+    </div>
+);
+
 const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
     const swiperRef = useRef<HTMLDivElement>(null);
     const sliderTrackRef = useRef<HTMLDivElement>(null);
-    const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+    const swiperInstanceRef = useRef<SwiperType | null>(null);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isDraggingSlider, setIsDraggingSlider] = useState(false);
 
@@ -54,7 +68,7 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
                                         },
                                     },
                                 });
-                                setSwiperInstance(swiper);
+                                swiperInstanceRef.current = swiper;
                             });
                             observer.disconnect();
                         }
@@ -67,30 +81,36 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
 
             return () => {
                 observer.disconnect();
-                if (swiperInstance) {
-                    swiperInstance.destroy();
+                if (swiperInstanceRef.current) {
+                    swiperInstanceRef.current.destroy();
+                    swiperInstanceRef.current = null;
                 }
             };
         }
     }, []);
+
+    const updateSlider = useCallback((clientX: number) => {
+        if (!sliderTrackRef.current || !swiperInstanceRef.current) return;
+        const rect = sliderTrackRef.current.getBoundingClientRect();
+        const percentage = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        swiperInstanceRef.current.setProgress(percentage, 0);
+    }, []);
+
+    const updateSliderRef = useRef(updateSlider);
+    useEffect(() => {
+        updateSliderRef.current = updateSlider;
+    }, [updateSlider]);
 
     const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         setIsDraggingSlider(true);
         updateSlider(e.clientX);
     };
 
-    const updateSlider = (clientX: number) => {
-        if (!sliderTrackRef.current || !swiperInstance) return;
-        const rect = sliderTrackRef.current.getBoundingClientRect();
-        const percentage = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-        swiperInstance.setProgress(percentage, 0);
-    };
-
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingSlider) {
                 e.preventDefault();
-                updateSlider(e.clientX);
+                updateSliderRef.current(e.clientX);
             }
         };
         const handleMouseUp = () => setIsDraggingSlider(false);
@@ -104,21 +124,7 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [isDraggingSlider, swiperInstance]);
-
-    const renderStars = (rating: number) => (
-        <div className="flex gap-1">
-            {[...Array(5)].map((_, index) => (
-                <svg
-                    key={index}
-                    className={`w-6 h-6 ${index < rating ? 'text-blue-600 fill-current' : 'text-gray-300 fill-current'}`}
-                    viewBox="0 0 20 20"
-                >
-                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-            ))}
-        </div>
-    );
+    }, [isDraggingSlider]);
 
     // Average rating across all reviews
     const avgRating = reviews.length
@@ -139,7 +145,7 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
                         <span>{dict?.home?.testimonials?.rateUs || "Customers rate us with"}</span>
                         <div className="flex gap-1">
                             {[...Array(5)].map((_, i) => (
-                                <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                <svg key={i} className="size-5 fill-current" viewBox="0 0 20 20">
                                     <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                                 </svg>
                             ))}
@@ -179,6 +185,7 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
                                                     src={review.avatar}
                                                     alt={review.author}
                                                     fill
+                                                    sizes="(max-width: 768px) 48px, 64px"
                                                     className="rounded-full object-cover"
                                                 />
                                             ) : (
@@ -188,7 +195,7 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
                                             )}
                                         </div>
                                         <div className="flex-1">
-                                            {renderStars(review.rating)}
+                                            <Stars rating={review.rating} />
                                             <p className="mt-2 text-[#263586]">
                                                 <span className="font-semibold">{review.author}</span>
                                                 {review.verified && (
@@ -213,7 +220,6 @@ const TestimonialCarousel: React.FC<Props> = ({ reviews, dict }) => {
                         className={`h-full bg-[#2e3b84]/20 w-1/2 rounded-full absolute top-0 left-0 hover:bg-[#2e3b84]/30 transition-colors ${isDraggingSlider ? 'bg-[#2e3b84]/40' : ''}`}
                         style={{
                             transform: `translateX(${scrollProgress * 100}%)`,
-                            willChange: 'transform'
                         }}
                     />
                 </div>

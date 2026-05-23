@@ -30,8 +30,10 @@ export function getFallbackReviews(dict: any): ReviewResult[] {
 }
 
 export default async function TestimonialsSection() {
-    const resolvedLang = await getLocale();
-    const dict = await getMessages();
+    const [resolvedLang, dict] = await Promise.all([
+        getLocale(),
+        getMessages(),
+    ]);
 
     let reviews: ReviewResult[] = [];
 

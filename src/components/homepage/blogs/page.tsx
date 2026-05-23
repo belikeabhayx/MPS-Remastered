@@ -24,24 +24,19 @@ interface BlogCarouselProps {
     initialPosts: BlogPostCarouselItem[];
 }
 
-const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
+const DEFAULT_POSTS: BlogPostCarouselItem[] = [];
+
+const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts = DEFAULT_POSTS }) => {
     const t = useTranslations("home");
     const swiperRef = useRef<HTMLDivElement>(null);
     const sliderTrackRef = useRef<HTMLDivElement>(null);
-    const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+    const swiperInstanceRef = useRef<SwiperType | null>(null);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isDraggingSlider, setIsDraggingSlider] = useState(false);
-    const [blogPosts, setBlogPosts] = useState<BlogPostCarouselItem[]>(initialPosts || []);
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
 
     useEffect(() => {
-        if (initialPosts && initialPosts.length > 0) {
-            setBlogPosts(initialPosts);
-        }
-    }, [initialPosts]);
-
-    useEffect(() => {
-        if (!loading && swiperRef.current && blogPosts.length > 0) {
+        if (!loading && swiperRef.current && initialPosts.length > 0) {
             // Use IntersectionObserver to defer Swiper initialization until visible
             const observer = new IntersectionObserver(
                 (entries) => {
@@ -69,7 +64,7 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
                                         },
                                     },
                                 });
-                                setSwiperInstance(swiper);
+                                swiperInstanceRef.current = swiper;
                             });
                             observer.disconnect();
                         }
@@ -82,20 +77,26 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
 
             return () => {
                 observer.disconnect();
-                if (swiperInstance) {
-                    swiperInstance.destroy();
+                if (swiperInstanceRef.current) {
+                    swiperInstanceRef.current.destroy();
+                    swiperInstanceRef.current = null;
                 }
             };
         }
-    }, [blogPosts, loading]);
+    }, [initialPosts, loading]);
 
     // Fix: wrapped in useCallback so the mousemove effect always sees the latest swiperInstance
     const updateSlider = useCallback((clientX: number) => {
-        if (!sliderTrackRef.current || !swiperInstance) return;
+        if (!sliderTrackRef.current || !swiperInstanceRef.current) return;
         const rect = sliderTrackRef.current.getBoundingClientRect();
         const percentage = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-        swiperInstance.setProgress(percentage, 0);
-    }, [swiperInstance]);
+        swiperInstanceRef.current.setProgress(percentage, 0);
+    }, []);
+
+    const updateSliderRef = useRef(updateSlider);
+    useEffect(() => {
+        updateSliderRef.current = updateSlider;
+    }, [updateSlider]);
 
     const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         setIsDraggingSlider(true);
@@ -106,7 +107,7 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingSlider) {
                 e.preventDefault();
-                updateSlider(e.clientX);
+                updateSliderRef.current(e.clientX);
             }
         };
 
@@ -123,10 +124,9 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-        // Fix: updateSlider is now stable via useCallback, safe to include here
-    }, [isDraggingSlider, updateSlider]);
+    }, [isDraggingSlider]);
 
-    if (!loading && blogPosts.length === 0) {
+    if (!loading && initialPosts.length === 0) {
         return null;
     }
 
@@ -165,7 +165,7 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
                         {/* Swiper Carousel */}
                         <div ref={swiperRef} className="swiper overflow-hidden">
                             <div className="swiper-wrapper">
-                                {blogPosts.map((post) => (
+                                {initialPosts.map((post) => (
                                     <div
                                         key={post.id}
                                         className="swiper-slide max-md:w-[233px]!"
@@ -178,13 +178,14 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
                                                     src={post.image}
                                                     alt=""
                                                     fill
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                     aria-hidden="true"
                                                     className="object-contain transition-transform duration-300 group-hover:scale-105"
                                                 />
-
+ 
                                                 {/* Gradient Overlay */}
                                                 <div className="absolute inset-0 bg-linear-to-t from-blue-900/90 via-blue-900/50 to-transparent"></div>
-
+ 
                                                 {/* Title */}
                                                 <div className="absolute bottom-0 left-0 right-0 p-8">
                                                     <h3 className="text-white text-[16px] md:text-2xl font-serif leading-tight">
@@ -197,7 +198,7 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
                                 ))}
                             </div>
                         </div>
-
+ 
                         {/* Slider Control */}
                         {/* Fix: removed overflow-hidden; thumb position math corrected so it stays within bounds */}
                         <div
@@ -210,7 +211,6 @@ const BlogCarousel: React.FC<BlogCarouselProps> = ({ initialPosts }) => {
                                 className={`h-full bg-[#2e3b84]/20 w-1/2 rounded-full absolute top-0 left-0 hover:bg-[#2e3b84]/30 transition-colors ${isDraggingSlider ? 'bg-[#2e3b84]/40' : ''}`}
                                 style={{
                                     transform: `translateX(${scrollProgress * 50}%)`,
-                                    willChange: 'transform'
                                 }}
                             ></div>
                         </div>

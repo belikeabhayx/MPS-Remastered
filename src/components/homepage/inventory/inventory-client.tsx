@@ -41,10 +41,11 @@ export default function InventoryClient({ values, valuesLabel }: InventoryClient
           </span>
           <div className="flex flex-col gap-6 md:gap-8">
             {values.map((item, index) => (
-              <div
+              <button
                 key={item.id}
+                type="button"
                 onClick={() => setActiveIndex(index)}
-                className="group cursor-pointer"
+                className="group cursor-pointer text-left w-full block bg-transparent border-none p-0 focus:outline-none focus-visible:ring-1 focus-visible:ring-white rounded"
               >
                 <h2
                   className={cn(
@@ -56,7 +57,7 @@ export default function InventoryClient({ values, valuesLabel }: InventoryClient
                 >
                   {item.title}
                 </h2>
-              </div>
+              </button>
             ))}
           </div>
         </div>

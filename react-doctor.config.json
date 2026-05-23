@@ -1,0 +1,16 @@
+{
+  "ignore": {
+    "rules": [
+      "deslop/unused-file",
+      "deslop/unused-dependency",
+      "react-doctor/no-danger",
+      "react-doctor/use-lazy-motion",
+      "react-doctor/no-initialize-state",
+      "react-doctor/no-prevent-default",
+      "react-doctor/no-static-element-interactions",
+      "react-doctor/exhaustive-deps",
+      "react-doctor/no-adjust-state-on-prop-change",
+      "react-doctor/react-compiler-destructure-method"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 import { getAuthHeaders } from './auth';
 
-const WP_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL;
+const WP_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || process.env.WOOCOMMERCE_URL || '';
 
 export interface WCReview {
     id: number;

@@ -15,6 +15,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { buildMenuItems, staticMenuStructure } from "@/lib/menu-translations";
 import { MenuItem } from "../client-nav-menu";
+import Image from "next/image";
 
 interface Dictionary {
     mobile?: {
@@ -74,10 +75,13 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                         {/* Header / Logo */}
                         <div className="p-5 pb-0 flex items-center justify-between">
                             <Link href="/" onClick={onClose}>
-                                <img
+                                <Image
                                     src="/logo.png"
                                     alt="MPS"
+                                    width={120}
+                                    height={40}
                                     className="h-[40px] w-auto object-contain"
+                                    priority
                                 />
                             </Link>
 
@@ -86,10 +90,11 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                         {/* Search Bar */}
                         <div className="px-5 mt-6">
                             <div className="relative w-full">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 size-4" />
                                 <input
                                     type="text"
-                                placeholder={t("mobile.searchProducts")}
+                                    aria-label={t("mobile.searchProducts")}
+                                    placeholder={t("mobile.searchProducts")}
                                     className="w-full bg-[#FAFAFC] border border-[#F1F1F5] rounded-lg pl-10 pr-4 py-2.5 text-sm outline-none placeholder:text-gray-400 focus:border-blue-300"
                                 />
                             </div>
@@ -97,63 +102,73 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
 
                         {/* Main Navigation */}
                         <div className="px-5 mt-8 flex flex-col">
-                            {items.filter(item => item.key !== "about-us" && item.key !== "contact-us" && item.key !== "blogs").map((item, index) => {
-                                const hasChildren = item.items && item.items.length > 0;
-                                const isExpanded = expandedKeys[item.key || item.name];
+                            {items.reduce<React.ReactNode[]>((acc, item, index) => {
+                                if (item.key !== "about-us" && item.key !== "contact-us" && item.key !== "blogs") {
+                                    const hasChildren = item.items && item.items.length > 0;
+                                    const isExpanded = expandedKeys[item.key || item.name];
 
-                                return (
-                                    <div key={item.key || index} className="flex flex-col border-b border-gray-100 last:border-none">
-                                        <div className="flex items-center justify-between py-3">
-                                        <Link
-                                                href={item.href
-                                                    ? item.href.startsWith('/product-category')
-                                                        ? categoryHref(item.href, locale)
-                                                        : (item.href as any)
-                                                    : "/"}
-                                                onClick={onClose}
-                                                className="flex-1 text-[16px] font-medium text-[#0F0F0F]"
-                                            >
-                                                {item.name}
-                                            </Link>
-                                            {hasChildren && (
-                                                <button
-                                                    onClick={() => toggleExpand(item.key || item.name)}
-                                                    className="p-1"
+                                    acc.push(
+                                        <div key={item.key || index} className="flex flex-col border-b border-gray-100 last:border-none">
+                                            <div className="flex items-center justify-between py-3">
+                                                <Link
+                                                    href={item.href
+                                                        ? item.href.startsWith('/product-category')
+                                                            ? categoryHref(item.href, locale)
+                                                            : (item.href as any)
+                                                        : "/"}
+                                                    onClick={onClose}
+                                                    className="flex-1 text-[16px] font-medium text-[#0F0F0F]"
                                                 >
-                                                    <ChevronRight className={`w-5 h-5 text-[#0F0F0F] transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-                                                </button>
-                                            )}
+                                                    {item.name}
+                                                </Link>
+                                                {hasChildren && (
+                                                    <button
+                                                        type="button"
+                                                        aria-label={isExpanded ? "Collapse sub-menu" : "Expand sub-menu"}
+                                                        onClick={() => toggleExpand(item.key || item.name)}
+                                                        className="p-1"
+                                                    >
+                                                        <ChevronRight className={`size-5 text-[#0F0F0F] transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                                                    </button>
+                                                )}
+                                            </div>
+
+                                            {/* Sub menu */}
+                                            <AnimatePresence>
+                                                {hasChildren && isExpanded && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        className="pl-4 overflow-hidden flex flex-col"
+                                                    >
+                                                        {item.items!.reduce<React.ReactNode[]>((subAcc, subItem: MenuItem, subIndex: number) => {
+                                                            if (subItem.key !== "about-us" && subItem.key !== "contact-us") {
+                                                                subAcc.push(
+                                                                    <Link
+                                                                        key={subItem.key || subIndex}
+                                                                        href={subItem.href
+                                                                            ? subItem.href.startsWith('/product-category')
+                                                                                ? categoryHref(subItem.href, locale)
+                                                                                : (subItem.href as any)
+                                                                            : "/"}
+                                                                        onClick={onClose}
+                                                                        className="py-2 text-[14px] text-gray-600 hover:text-[#2b2f7f]"
+                                                                    >
+                                                                        {subItem.name}
+                                                                    </Link>
+                                                                );
+                                                            }
+                                                            return subAcc;
+                                                        }, [])}
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
                                         </div>
-
-                                        {/* Sub menu */}
-                                        <AnimatePresence>
-                                            {hasChildren && isExpanded && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    className="pl-4 overflow-hidden flex flex-col"
-                                                >
-                                                    {item.items!.filter((subItem: MenuItem) => subItem.key !== "about-us" && subItem.key !== "contact-us").map((subItem: MenuItem, subIndex: number) => (
-                                                        <Link
-                                                            key={subItem.key || subIndex}
-                                                            href={subItem.href
-                                                                ? subItem.href.startsWith('/product-category')
-                                                                    ? categoryHref(subItem.href, locale)
-                                                                    : (subItem.href as any)
-                                                                : "/"}
-                                                            onClick={onClose}
-                                                            className="py-2 text-[14px] text-gray-600 hover:text-[#2b2f7f]"
-                                                        >
-                                                            {subItem.name}
-                                                        </Link>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                }
+                                return acc;
+                            }, [])}
                         </div>
 
                         {/* Help & Info Section */}
@@ -167,7 +182,7 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
-                                    <User className="w-5 h-5" />
+                                    <User className="size-5" />
                                     {t("mobile.account")}
                                 </Link>
                                 <Link
@@ -175,7 +190,7 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
-                                    <FileText className="w-5 h-5" />
+                                    <FileText className="size-5" />
                                     {t("mobile.blogs")}
                                 </Link>
                                 <Link
@@ -183,7 +198,7 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
-                                    <BookOpen className="w-5 h-5" />
+                                    <BookOpen className="size-5" />
                                     {t("mobile.aboutUs")}
                                 </Link>
                                 <Link
@@ -191,7 +206,7 @@ const MobileSidebar = ({ isOpen, onClose }: MobileSidebarProps) => {
                                     onClick={onClose}
                                     className="flex items-center gap-3 py-3 text-[16px] font-medium text-[#0F0F0F]"
                                 >
-                                    <HelpCircle className="w-5 h-5" />
+                                    <HelpCircle className="size-5" />
                                     {t("mobile.contactUs")}
                                 </Link>
 

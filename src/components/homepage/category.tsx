@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -27,7 +27,7 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
 
     const swiperRef = useRef<HTMLDivElement>(null);
     const sliderTrackRef = useRef<HTMLDivElement>(null);
-    const [swiperInstance, setSwiperInstance] = useState<Swiper | null>(null);
+    const swiperInstanceRef = useRef<Swiper | null>(null);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isDraggingSlider, setIsDraggingSlider] = useState(false);
 
@@ -89,31 +89,37 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
                     },
                 },
             });
-            setSwiperInstance(swiper);
+            swiperInstanceRef.current = swiper;
 
             return () => {
                 swiper.destroy();
+                swiperInstanceRef.current = null;
             };
         }
     }, []);
 
-    const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        setIsDraggingSlider(true);
-        updateSlider(e.clientX);
-    };
-
-    const updateSlider = (clientX: number) => {
-        if (!sliderTrackRef.current || !swiperInstance) return;
+    const updateSlider = useCallback((clientX: number) => {
+        if (!sliderTrackRef.current || !swiperInstanceRef.current) return;
         const rect = sliderTrackRef.current.getBoundingClientRect();
         const percentage = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-        swiperInstance.setProgress(percentage, 0);
+        swiperInstanceRef.current.setProgress(percentage, 0);
+    }, []);
+
+    const updateSliderRef = useRef(updateSlider);
+    useEffect(() => {
+        updateSliderRef.current = updateSlider;
+    }, [updateSlider]);
+
+    const handleSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        setIsDraggingSlider(true);
+        updateSliderRef.current(e.clientX);
     };
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingSlider) {
                 e.preventDefault();
-                updateSlider(e.clientX);
+                updateSliderRef.current(e.clientX);
             }
         };
 
@@ -130,7 +136,7 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [isDraggingSlider, swiperInstance]);
+    }, [isDraggingSlider]);
 
     return (
         <section className="py-16 bg-white max-w-7xl mx-auto">
@@ -155,7 +161,7 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
                                         {t("hero.enginePartsDesc")}
                                     </p>
                                     <Link href={categoryHref('/product-category/engine-parts', locale)} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
-                                        {t("hero.shopNow")} <ArrowRight className="ml-1 w-4 h-4" />
+                                        {t("hero.shopNow")} <ArrowRight className="ml-1 size-4" />
                                     </Link>
                                 </div>
 
@@ -184,7 +190,7 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
                                             {item.desc}
                                         </p>
                                         <Link href={categoryHref(item.href, locale)} className="inline-flex items-center text-[#3b4b8c] font-medium text-sm hover:underline group-hover:gap-2 transition-all">
-                                            {t("hero.shopNow")} <ArrowRight className="ml-1 w-4 h-4" />
+                                            {t("hero.shopNow")} <ArrowRight className="ml-1 size-4" />
                                         </Link>
                                     </div>
 
@@ -211,7 +217,7 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
                                 </h3>
                                 <Button asChild className="bg-[#3b4b8c] hover:bg-[#2d3a6e] text-white rounded-md px-6 py-2 h-auto text-sm font-medium">
                                     <Link href="/product-category">
-                                        {t("browse.button")} <ArrowRight className="ml-2 w-4 h-4" />
+                                        {t("browse.button")} <ArrowRight className="ml-2 size-4" />
                                     </Link>
                                 </Button>
                             </Card>
@@ -229,7 +235,6 @@ const PopularCategories = ({ data }: { data?: CategoryData[] }) => {
                         className={`h-full bg-[#2e3b84]/20 w-1/2 rounded-full absolute top-0 left-0 hover:bg-[#2e3b84]/30 transition-colors ${isDraggingSlider ? 'bg-[#2e3b84]/40' : ''}`}
                         style={{
                             transform: `translateX(${scrollProgress * 100}%)`,
-                            willChange: 'transform'
                         }}
                     ></div>
                 </div>
