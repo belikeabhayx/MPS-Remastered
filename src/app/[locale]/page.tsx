@@ -19,7 +19,7 @@ const page = async ({ params }: PageProps) => {
 
   let initialPosts: BlogPostCarouselItem[] = [];
   try {
-    const { posts } = await fetchBlogs(1, 10, locale);
+    const { posts } = await fetchBlogs(1, 5, locale);
     initialPosts = posts.map((post) => ({
       id: post.id,
       title: post.title.rendered,

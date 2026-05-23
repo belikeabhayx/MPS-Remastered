@@ -1,19 +1,6 @@
+import { getAuthHeaders } from './auth';
+
 const WP_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL;
-
-function getAuthHeaders() {
-    const key = process.env.WOOCOMMERCE_CONSUMER_KEY;
-    const secret = process.env.WOOCOMMERCE_CONSUMER_SECRET;
-
-    if (!key || !secret) {
-        throw new Error('WooCommerce Consumer Key or Secret is missing.');
-    }
-
-    const auth = Buffer.from(`${key}:${secret}`).toString('base64');
-    return {
-        Authorization: `Basic ${auth}`,
-        'Content-Type': 'application/json',
-    };
-}
 
 export interface WCReview {
     id: number;
@@ -78,7 +65,10 @@ export async function fetchReviews(
         const response = await fetch(
             `${WP_URL}/wp-json/wc/v3/products/reviews?${params.toString()}`,
             {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json',
+                },
                 next: { revalidate: 3600 },
             }
         );
@@ -136,7 +126,10 @@ export async function fetchReviewsByProductId(
         const response = await fetch(
             `${WP_URL}/wp-json/wc/v3/products/reviews?${params.toString()}`,
             {
-                headers: getAuthHeaders(),
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json',
+                },
                 next: { revalidate: 3600 }
             }
         );
